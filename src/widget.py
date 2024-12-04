@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from src.masks import get_mask_account, get_mask_card_number
 
 
@@ -19,3 +21,10 @@ def mask_account_widget(card_or_account_number: str) -> str:
         total_result = name_mask + result
 
     return total_result
+
+
+def get_date(formatted_date: str) -> str:
+    """Функция преобразует полученную строку с датой в дату формата 'ДД.ММ.ГГГГ'"""
+    received_date = datetime.strptime(formatted_date[:10], "%Y-%m-%d")
+    required_date = received_date.strftime("%d.%m.%Y")
+    return required_date
