@@ -1,5 +1,5 @@
 def filter_by_state(list_dictionaries: list[dict[str, str]], state: str = "EXECUTED") -> list[dict[str, str]]:
-    """Принимает список словарей с данными о банковских операциях и параметр state, по которому фильтрует список"""
+    """Фильтрует список словарей с данными о банковских операциях по параметру state"""
     new_list_dictionaries = []
     for dictionary in list_dictionaries:
         for value in dictionary.values():
