@@ -1,4 +1,4 @@
-def filter_by_state(list_dictionaries: list[dict], state: str = "EXECUTED") -> list[dict]:
+def filter_by_state(list_dictionaries: list[dict[str, str]], state: str = "EXECUTED") -> list[dict[str, str]]:
     """Принимает список словарей с данными о банковских операциях и параметр state, по которому фильтрует список"""
     new_list_dictionaries = []
     for dictionary in list_dictionaries:
@@ -9,7 +9,7 @@ def filter_by_state(list_dictionaries: list[dict], state: str = "EXECUTED") -> l
     return new_list_dictionaries
 
 
-def sort_by_date(list_dictionaries: list[dict], sort_order: bool = True) -> list[dict]:
+def sort_by_date(list_dictionaries: list[dict[str, str]], sort_order: bool = True) -> list[dict[str, str]]:
     """Сортирует полученный список словарей по дате, параметр, задающий порядок сортировки, по умолчанию - убывание"""
     if sort_order is True:
         sorted_dictionaries = sorted(list_dictionaries, key=lambda dictionary: dictionary["date"], reverse=True)
