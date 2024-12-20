@@ -9,9 +9,9 @@ def get_mask_card_number(card_number: str) -> str:
     if len(number) == 0:
         return "пустой ввод"
     else:
-        return "введены некорректные данные"
+        return "некорректный ввод данных"
 
-# print(get_mask_card_number("700079228996361"))
+# print(get_mask_card_number("7000792289606361"))
 def get_mask_account(account_number: str) -> str:
     """Функция принимает на вход номер счета и возвращает его маску."""
 
@@ -22,7 +22,7 @@ def get_mask_account(account_number: str) -> str:
     if len(account) == 0:
         return "пустой ввод"
     if 20 > len(account) > 0 or len(account) > 20 or account.isdigit() is False:
-        return "введены некорректные данные"
+        return "некорректный ввод данных"
 
+    return ""
 
-# print(get_mask_account("73654108430135874305111"))

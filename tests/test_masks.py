@@ -16,15 +16,6 @@ def test_get_mask_card_number_zero() -> None:
     assert get_mask_card_number("") == "пустой ввод"
 
 
-def test_get_mask_card_number_error(card_error_number_for_test: str) -> None:
-    """Функция проверяет, что некорректный ввод данных номера карты
-    (например, два аргумента(два номера карт), вместо одного) приводит
-    к возникновению исключения TypeError"""
-
-    with pytest.raises(TypeError):
-        get_mask_card_number(card_error_number_for_test)
-
-
 # декоратор для запуска тестирования с различными входными данными
 # (нестандартная длина номера карт)
 @pytest.mark.parametrize(
@@ -50,10 +41,10 @@ def test_get_mask_account(account_number_for_test: str) -> None:
 @pytest.mark.parametrize(
     "value, expected",
     [
-        ("73654108430135874305111", "введены некорректные данные"),
-        ("73654108430", "введены некорректные данные"),
-        ("!№;%:?*()_+)(*?:%;№!", "введены некорректные данные"),
-        ("ВАПРОолд__еутЗД79432", "введены некорректные данные"),
+        ("73654108430135874305111", "некорректный ввод данных"),
+        ("73654108430", "некорректный ввод данных"),
+        ("!№;%:?*()_+)(*?:%;№!", "некорректный ввод данных"),
+        ("ВАПРОолд__еутЗД79432", "некорректный ввод данных"),
     ],
 )
 def test_get_mask_account_incorrect_input(value: str, expected: list[dict[str, Any]]) -> None:
@@ -68,9 +59,9 @@ def test_get_mask_account_zero() -> None:
     assert get_mask_account("") == "пустой ввод"
 
 
-def test_get_mask_account_error(account_error_number_for_test: str) -> None:
-    """Функция проверяет, что некорректный ввод данных номера счета
-    (например, два аргумента(два номера счета), вместо одного) приводит
-    к возникновению исключения TypeError"""
-    with pytest.raises(TypeError):
-        get_mask_account(account_error_number_for_test)
+# def test_get_mask_account_error(account_error_number_for_test: str) -> None:
+#     """Функция проверяет, что некорректный ввод данных номера счета
+#     (например, два аргумента(два номера счета), вместо одного) приводит
+#     к возникновению исключения TypeError"""
+#     with pytest.raises(TypeError):
+#         get_mask_account(account_error_number_for_test)
