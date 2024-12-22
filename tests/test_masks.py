@@ -12,7 +12,7 @@ def test_get_mask_card_number(card_number_for_test: str) -> None:
 
 
 def test_get_mask_card_number_zero() -> None:
-    """ Функция тестирует корректность обработки пустого ввода номера карты """
+    """Функция тестирует корректность обработки пустого ввода номера карты"""
     assert get_mask_card_number("") == "пустой ввод"
 
 
@@ -57,11 +57,3 @@ def test_get_mask_account_incorrect_input(value: str, expected: list[dict[str, A
 def test_get_mask_account_zero() -> None:
     """Функция тестирует корректность обработки пустого ввода номера счета"""
     assert get_mask_account("") == "пустой ввод"
-
-
-# def test_get_mask_account_error(account_error_number_for_test: str) -> None:
-#     """Функция проверяет, что некорректный ввод данных номера счета
-#     (например, два аргумента(два номера счета), вместо одного) приводит
-#     к возникновению исключения TypeError"""
-#     with pytest.raises(TypeError):
-#         get_mask_account(account_error_number_for_test)

@@ -16,6 +16,11 @@
 * src/processing.py - модуль, содержащий функции фильтрации и 
 сортировки получаемых списков словарей с данными о банковских операциях
 * main.py - модуль, реализующий логику проекта
+* tests/conftest.py - модуль с фикстурами
+* tests/test_masks.py - модуль с тестами для модуля masks.py
+* tests/test_widget.py - модуль с тестами для модуля widget.py
+* tests/test_processing.py - модуль с тестами для модуля processing.py
+* htmlcov/index.html - отчет о покрытии тестами
 
 ## Установка:
 

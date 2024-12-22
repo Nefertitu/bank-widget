@@ -11,7 +11,7 @@ def get_mask_card_number(card_number: str) -> str:
     else:
         return "некорректный ввод данных"
 
-# print(get_mask_card_number("7000792289606361"))
+
 def get_mask_account(account_number: str) -> str:
     """Функция принимает на вход номер счета и возвращает его маску."""
 
@@ -25,4 +25,3 @@ def get_mask_account(account_number: str) -> str:
         return "некорректный ввод данных"
 
     return ""
-
