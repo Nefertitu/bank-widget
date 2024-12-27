@@ -198,6 +198,49 @@ def list_dict_zero_for_test() -> list:
 
 
 @pytest.fixture
+def list_dict_incomplete_data_for_test() -> list[dict[str, Any]]:
+    """Возвращает список словарей для теста с неверным форматом даты"""
+    return [
+      {
+            "id": 873106923,
+            "state": "EXECUTED",
+            "date": "2019-03-23T01:09:46.296404",
+            "operationAmount": {
+                "amount": "43318.34",
+                "currency": {
+                    "name": "руб.",
+                    "code": "RUB"
+                }
+            }
+      },
+            {
+            "id": 895315941,
+            "state": "EXECUTED",
+            "date": "2018-08-19T04:27:37.904916",
+            "operationAmount": {
+                "amount": "56883.54",
+                "currency": {
+                    "name": "USD",
+                    "code": "USD"
+                }
+            }
+            },
+        {
+            "id": 594226727,
+            "state": "CANCELED",
+            "date": "2018-09-12T21:27:25.241689",
+            "operationAmount": {
+                "amount": "67314.70",
+                "currency": {
+                    "name": "руб.",
+                    "code": "RUB"
+                }
+            }
+        }
+]
+
+
+@pytest.fixture
 def currency_filter_1() -> str:
     """Возвращает тип валюты 'USD'"""
     return "USD"

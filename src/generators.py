@@ -87,7 +87,7 @@ def filter_by_currency(list_dicts: list[dict[str, Any]], currency_type: str) -> 
     выдающий поочередно транзакции, соответствующие заданной валюте"""
     filter_transactions = list(filter(lambda x: x["operationAmount"]["currency"]["code"] == currency_type, list_dicts))
     if list_dicts == []:
-        yield f"пустой список"
+        yield "пустой список"
     else:
 
         for item in filter_transactions:
@@ -114,7 +114,6 @@ while True:
 # print(next(result_filter))
 
 
-
 def transactions_descriptions(list_dicts: list[dict[str, Any]]) -> Iterator[list[str]]:
     """Функция принимает список словарей с транзакциями и возвращает итератор,
         выдающий описание каждой операции по очереди"""
@@ -122,28 +121,44 @@ def transactions_descriptions(list_dicts: list[dict[str, Any]]) -> Iterator[list
     list_descriptions = []
 
     if list_dicts == []:
-        yield f"пустой список"
+        yield "пустой список"
 
     else:
-        for dict in list_dicts:
-            list_descriptions.append(dict["description"])
-            yield dict["description"]
+        list_descriptions = list(dict["description"] for dict in list_dicts if dict.get("description") is not None)
 
-        if list_descriptions == []:
+        if list_descriptions != []:
+            for item in list_descriptions:
+             yield item
+
+        else:
             yield "отсутствуют данные о проведенных операциях"
 
 
 descriptions = transactions_descriptions(transactions)
 
-while True:
-    try:
-# for item in range(5):
-        print(next(descriptions))
 
-    except StopIteration:
-        print("генератор исчерпан")
-        break
+for count in range(5):
+    print(next(descriptions))
+    count += 1
+
+# while True:
+#     try:
+#         print(next(descriptions))
+#     except StopIteration:
+#         print("генератор исчерпан")
+#         break
 
 
-def card_number_generator(start, stop):
-    pass
+# def card_number_generator(start=0, stop=1):
+#     """Функция генерирует номера банковских карт в заданном диапазоне
+#     в формате 'ХХХХ ХХХХ ХХХХ ХХХХ'"""
+#
+#     num = 10000000000000000
+#     if stop != 0 and stop < 10000000000000000:
+#
+#         cards_numbers = (str((num + x)).lstrip("1") for x in range(start, stop + 1))
+#         for number in cards_numbers:
+#             yield f"{str(number[:4])} {str(number[4:8])} {str(number[8:12])} {str(number[12: ])}"
+#
+# for card_number in card_number_generator(10155,10157):
+#     print(card_number)

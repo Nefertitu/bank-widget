@@ -40,24 +40,44 @@ def test_filter_by_currency_zero_list(list_dict_zero_for_test: list, currency_fi
     assert next(generator) == expected_result
 
 
-# def test_transaction_descriptions(list_dicts_with_transactions: list[dict[str, Any]]) -> None:
-#     """Тест, проверяющий, что функция `transaction_descriptions` возвращает корректные
-#         описания для каждой транзакции"""
-#
-#     generator = transactions_descriptions(list_dicts_with_transactions)
-#     expected_result1 = "Перевод организации"
-#     expected_result2 = "Перевод со счета на счет"
-#     expected_result3 = "Перевод со счета на счет"
-#     expected_result4 = "Перевод с карты на карту"
-#     expected_result5 = "Перевод организации"
-#
-#     assert next(generator) == expected_result1
-#     assert next(generator) == expected_result2
-#     assert next(generator) == expected_result3
-#     assert next(generator) == expected_result4
-#     assert next(generator) == expected_result5
-#
-#
-# def test_card_number_generator():
-#     assert card_number_generator()
-#     pass
+def test_transaction_descriptions(list_dicts_with_transactions: list[dict[str, Any]]) -> None:
+    """Тест, проверяющий, что функция `transaction_descriptions` возвращает корректные
+        описания для каждой транзакции"""
+
+    generator = transactions_descriptions(list_dicts_with_transactions)
+    expected_result1 = "Перевод организации"
+    expected_result2 = "Перевод со счета на счет"
+    expected_result3 = "Перевод со счета на счет"
+    expected_result4 = "Перевод с карты на карту"
+    expected_result5 = "Перевод организации"
+
+    assert next(generator) == expected_result1
+    assert next(generator) == expected_result2
+    assert next(generator) == expected_result3
+    assert next(generator) == expected_result4
+    assert next(generator) == expected_result5
+
+
+def test_transaction_descriptions_zero(list_dict_zero_for_test: list) -> None:
+    """Тест, проверяющий, что функция `transaction_descriptions` корректно обрабатывает
+    пустой список"""
+
+    generator = transactions_descriptions(list_dict_zero_for_test)
+    expected_result = "пустой список"
+
+    assert next(generator) == expected_result
+
+
+def test_transaction_descriptions_incomplete_data(list_dict_incomplete_data_for_test: list) -> None:
+    """Тест, проверяющий, что функция `transaction_descriptions` корректно обрабатывает
+    пустой список"""
+
+    generator = transactions_descriptions(list_dict_incomplete_data_for_test)
+    expected_result = "отсутствуют данные о проведенных операциях"
+
+    assert next(generator) == expected_result
+
+
+def test_card_number_generator():
+    assert card_number_generator()
+    pass
