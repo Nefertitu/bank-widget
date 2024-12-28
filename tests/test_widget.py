@@ -18,8 +18,14 @@ from src.widget import get_data, mask_account_card
     ],
 )
 def test_mask_account_card(value: str, expected: str) -> None:
-    """Проверяет, что функция корректно распознает и применяет нужный тип маскировки
-    в зависимости от типа входных данных (карта или счет)"""
+    """
+    Проверяет, что функция корректно распознает и применяет нужный тип маскировки
+    в зависимости от типа входных данных (карта или счет)
+    :param value:
+    :param expected:
+    :return:
+    """
+
     assert mask_account_card(value) == expected
 
 
@@ -33,21 +39,33 @@ def test_mask_account_card(value: str, expected: str) -> None:
     ],
 )
 def test_mask_account_card_incorrect_input(value: str, expected: list[dict[str, Any]]) -> None:
-    """Проверка работы функции (`get_mask_account`) при некорректном вводе данных
-    (длина номера счета больше или меньше 20 символов, введенные данные
-    не являются цифрами)"""
+    """
+    Проверка работы функции (`get_mask_account`) при некорректном вводе данных (длина
+    номера счета больше или меньше 20 символов, введенные данные не являются цифрами)
+    :param value:
+    :param expected:
+    :return:
+    """
+
     assert mask_account_card(value) == expected
 
 
 def test_mask_account_card_zero() -> None:
-    """Функция тестирует корректность обработки пустого ввода номера карты или счета"""
+    """
+    Функция тестирует корректность обработки пустого ввода номера карты или счета
+    :return:
+    """
+
     assert mask_account_card("") == "пустой ввод"
 
 
 def test_mask_account_card_error(account_card_error_number_for_test: str) -> None:
-    """Функция проверяет, что некорректный ввод данных номера карты (например,
-    введены данные типа int вместо str) приводит к возникновению исключения
-    TypeError"""
+    """
+    Функция проверяет, что некорректный ввод данных номера карты (например, введены
+    данные типа int вместо str) приводит к возникновению исключения 'TypeError'
+    :param account_card_error_number_for_test:
+    :return:
+    """
 
     with pytest.raises(TypeError) as exc_info:
         mask_account_card(account_card_error_number_for_test)
@@ -57,13 +75,23 @@ def test_mask_account_card_error(account_card_error_number_for_test: str) -> Non
 
 
 def test_get_data(data_for_test: str) -> None:
-    """Тестирование правильности преобразования даты"""
+    """
+    Тестирование правильности преобразования даты
+    :param data_for_test:
+    :return:
+    """
+
     assert get_data(data_for_test) == "11.03.2024"
 
 
-def test_get_data_zero(data_for_test: str) -> None:
-    """Тестирование работы функции на корректность обработки пустого ввода"""
-    assert get_data(data_for_test) == "11.03.2024"
+def test_get_data_zero() -> None:
+    """
+    Тестирование работы функции на корректность обработки пустого ввода
+    :param:
+    :return:
+    """
+
+    assert get_data("") == "пустой ввод"
 
 
 @pytest.mark.parametrize(

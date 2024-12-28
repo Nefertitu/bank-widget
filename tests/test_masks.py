@@ -6,13 +6,22 @@ from src.masks import get_mask_account, get_mask_card_number
 
 
 def test_get_mask_card_number(card_number_for_test: str) -> None:
-    """Функция тестирует правильность маскирования номера карты стандартной длины
-    (16 символов)"""
+    """
+    Функция тестирует правильность маскирования номера карты стандартной длины
+    (16 символов)
+    :param card_number_for_test:
+    :return:
+    """
+
     assert get_mask_card_number("7000792289606361") == card_number_for_test
 
 
 def test_get_mask_card_number_zero() -> None:
-    """Функция тестирует корректность обработки пустого ввода номера карты"""
+    """
+    Функция тестирует корректность обработки пустого ввода номера карты
+    :return:
+    """
+
     assert get_mask_card_number("") == "пустой ввод"
 
 
@@ -28,13 +37,24 @@ def test_get_mask_card_number_zero() -> None:
     ],
 )
 def test_get_mask_card_number_other_length(value: str, expected: list[dict[str, Any]]) -> None:
-    """Проверка работы функции (`get_mask_card_number`) для номеров карт
-    различной длины с использованием параметризации"""
+    """
+    Проверка работы функции (`get_mask_card_number`) для номеров карт
+    различной длины с использованием параметризации
+    :param value:
+    :param expected:
+    :return:
+    """
+
     assert get_mask_card_number(value) == expected
 
 
 def test_get_mask_account(account_number_for_test: str) -> None:
-    """Функция тестирует правильность маскирования номера счета"""
+    """
+    Функция тестирует правильность маскирования номера счета
+    :param account_number_for_test:
+    :return:
+    """
+
     assert get_mask_account(account_number_for_test) == "**4305"
 
 
@@ -48,12 +68,22 @@ def test_get_mask_account(account_number_for_test: str) -> None:
     ],
 )
 def test_get_mask_account_incorrect_input(value: str, expected: list[dict[str, Any]]) -> None:
-    """Проверка работы функции (`get_mask_account`) при некорректном вводе данных
+    """
+    Проверка работы функции (`get_mask_account`) при некорректном вводе данных
     (длина номера счета больше или меньше 20 символов, введенные данные
-    не являются цифрами)"""
+    не являются цифрами)
+    :param value:
+    :param expected:
+    :return:
+    """
+
     assert get_mask_account(value) == expected
 
 
 def test_get_mask_account_zero() -> None:
-    """Функция тестирует корректность обработки пустого ввода номера счета"""
+    """
+    Функция тестирует корректность обработки пустого ввода номера счета
+    :return:
+    """
+
     assert get_mask_account("") == "пустой ввод"

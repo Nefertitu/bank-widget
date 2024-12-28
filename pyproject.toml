@@ -30,7 +30,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.mypy]
 disallow_untyped_defs=true
 warn_return_any=true
-exclude = 'venv'
+exclude = ['venv', 'tests']
 
 [tool.black]
 line-length = 119
@@ -39,6 +39,7 @@ exclude = '''
   /(
     | \.git
     | \.mypy_cache
+    | \.venv
     )/
 )
 '''
