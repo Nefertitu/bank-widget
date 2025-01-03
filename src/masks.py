@@ -1,5 +1,9 @@
 def get_mask_card_number(card_number: str) -> str:
-    """Функция принимает на вход номер карты и возвращает ее маску."""
+    """
+    Функция принимает на вход номер карты и возвращает ее маску
+    :param card_number:
+    :return:
+    """
 
     number = str(card_number)
     star = "*"
@@ -13,7 +17,11 @@ def get_mask_card_number(card_number: str) -> str:
 
 
 def get_mask_account(account_number: str) -> str:
-    """Функция принимает на вход номер счета и возвращает его маску."""
+    """
+    Функция принимает на вход номер счета и возвращает его маску
+    :param account_number:
+    :return:
+    """
 
     account = str(account_number)
     if len(account) == 20 and account.isdigit() is True:

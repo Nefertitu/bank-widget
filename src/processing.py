@@ -3,7 +3,13 @@ from typing import Any
 
 
 def filter_by_state(list_dictionaries: list[dict[str, Any]], state: str = "EXECUTED") -> Any:
-    """Фильтрует список словарей с данными о банковских операциях по параметру state"""
+    """
+    Фильтрует список словарей с данными о банковских операциях по параметру 'state'
+    :param list_dictionaries:
+    :param state:
+    :return:
+    """
+
     new_list_dictionaries = []
     for dictionary in list_dictionaries:
         for value in dictionary.values():
@@ -15,7 +21,14 @@ def filter_by_state(list_dictionaries: list[dict[str, Any]], state: str = "EXECU
 
 
 def sort_by_date(list_dictionaries: list[dict[str, Any]], sort_order: bool = True) -> Any:
-    """Сортирует полученный список словарей по дате, параметр, задающий порядок сортировки, по умолчанию - убывание"""
+    """
+    Сортирует полученный список словарей по дате, параметр, задающий порядок сортировки,
+    по умолчанию - убывание
+    :param list_dictionaries:
+    :param sort_order:
+    :return:
+    """
+
     comparsion_dictionary = []
     for dictionary in list_dictionaries:
         if re.search(r"\d{4}-\d{2}-\d{2}.*", dictionary["date"]):
