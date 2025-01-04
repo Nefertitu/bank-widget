@@ -59,6 +59,10 @@ def get_data(formatted_date: str | None) -> str:
     if formatted_date:
         received_date = re.search(r".*(\d{4}).(\d{2}).(\d{2}).*", formatted_date)
         result = f"{received_date.group(3)}.{received_date.group(2)}.{received_date.group(1)}"
+        if received_date is not None:
+            result = f"{received_date.group(3)}.{received_date.group(2)}.{received_date.group(1)}"
+        else:
+            result = ""
         return result
 
     return "пустой ввод"
