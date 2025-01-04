@@ -12,9 +12,13 @@ def log(filename=None):
                 result = function(*args, **kwargs)
 
             except Exception as exc_info:
-                logging.basicConfig(level=logging.ERROR, filename='mylog.txt', filemode='w', format='%(message)s, \n%(asctime)s')
-                logging.error(f"'{function.__name__}' error: {type(exc_info).__name__}: {str(exc_info)}. Inputs: {args}, {kwargs}")
-
+                if filename is not None:
+                    logging.basicConfig(level=logging.ERROR, filename='mylog.txt', filemode='w',
+                                        format='%(message)s, \n%(asctime)s')
+                    logging.error(f"'{function.__name__}' error: {type(exc_info).__name__}: {str(exc_info)}. Inputs: {args}, {kwargs}")
+                if filename is None:
+                    print(logging.basicConfig(level=logging.ERROR, format='%(message)s'))
+                    logging.error(f"'{function.__name__}' error: {type(exc_info).__name__}: {str(exc_info)}. Inputs: {args}, {kwargs}")
 
             else:
                 if filename is None:
@@ -22,10 +26,8 @@ def log(filename=None):
                     start_time = time()
                     result = function(*args, **kwargs)
                     end_time = time()
-                    print(f"'{function.__name__}' with args: {args} and kwargs: {kwargs}. "
-                          f"\nResult = {result}. "
-                          f"\nFunction call time: {function_call_time}. "
-                          f"\nTime execution: {end_time - start_time:.6f}")
+                    print(f"'{function.__name__}' with args: {args} and kwargs: {kwargs}."
+                          f"\nResult = {result}.")
 
                     return result
 
@@ -35,17 +37,17 @@ def log(filename=None):
                         start_time = time()
                         result = function(*args, **kwargs)
                         end_time = time()
-                        file.write(f"'{function.__name__}' with args: {args} and kwargs: {kwargs}. \nResult = {result}. "
-                                   f"\nFunction call time: {function_call_time}. "
-                                   f"\nTime execution: {end_time - start_time:.6f}")
+                        file.write(f"'{function.__name__}' with args: {args} and kwargs: {kwargs}. \nResult = {result}."
+                                   f"\nFunction call time: {function_call_time}."
+                                   f"\nTime execution: {end_time - start_time:.7f}")
                         return result
-                return function(*args, **kwargs)
+
         return wrapper
     return decorator
 
 
-@log(filename='mylog.txt')
-def my_functions(x: int | float, y: int | float) -> int | float:
+@log(filename=None)
+def my_function(x: int | float, y: int | float) -> int | float:
     """
     Выполняет сложение полученных значений
     :param x:
@@ -54,4 +56,4 @@ def my_functions(x: int | float, y: int | float) -> int | float:
     """
     return x / y
 
-# print(my_functions(5, 0))
+print(my_function(8.8, '4'))
