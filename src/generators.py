@@ -3,7 +3,7 @@ from typing import Any, Generator
 
 def filter_by_currency(
     list_dicts: list[dict[str, Any]], currency_type: str
-) -> Generator[list[dict[str, Any]]] | str | None:
+) -> Any:
     """
     Функция принимает список словарей с транзакциями и возвращает итератор,
     выдающий поочередно транзакции, соответствующие заданной валюте
@@ -33,7 +33,7 @@ def filter_by_currency(
 # print(next(result_filter))
 
 
-def transactions_descriptions(list_dicts: list[dict[str, Any]]) -> Generator[list[str]] | str:
+def transactions_descriptions(list_dicts: list[dict[str, Any]]) -> Any:
     """
     Функция принимает список словарей с транзакциями и возвращает итератор,
     выдающий описание каждой операции по очереди
@@ -75,7 +75,7 @@ def card_number_generator(start: int = 1, stop: int = 1) -> Generator[list[str]]
     :return:
     """
 
-    num = 10 ** 16
+    num = 10**16
 
     if type(start) is int and type(stop) is int:
 

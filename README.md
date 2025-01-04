@@ -18,12 +18,18 @@
 * `src\generators.py` - модуль, содержащий функцию фильтрации списков словарей с данными 
 о банковских операциях по заданной валюте, функцию, возвращающую описание каждой операции 
 по очереди, функцию - генератор омеров банковских карт
+* `src\decorstors.py` - модуль с декоратором `log`, который может автомаически логировать 
+начало и конец выполнения функции, а также ее результаты и возникшие ошибки. Декоратор
+принимает необязательный аргумент `filename`, который определяет, куда будут
+записываться логи (в файл или в консоль)
+* `mylog.txt` - файл для записи логов  
 * `main.py` - модуль, реализующий логику проекта
 * `tests\conftest.py` - модуль с фикстурами
 * `tests\test_masks.py` - модуль с тестами для `masks.py`
 * `tests\test_widget.py` - модуль с тестами для `widget.py`
 * `tests\test_processing.py` - модуль с тестами для `processing.py`
 * `tests\test_generators.py` - модуль с тестами для `generators.py`
+* `tests\test_decorators.py` - модуль с тестами для декоратора `decorators.py` 
 * `htmlcov\index.html` - отчет о покрытии тестами
 
 ## Установка:
@@ -52,41 +58,49 @@ poetry install
 + `filter_by_currency` - возвращает итератор, который поочередно выдает транзакции,
 где валюта операции соответствует заданной;
 + `transaction_descriptions` - генератор, возвращает описание каждой операции по очереди;
-+ `card_number_generator` - генераторб генерирует номера карт в формате 'ХХХХ ХХХХ ХХХХ ХХХХ',
++ `card_number_generator` - генератор генерирует номера карт в формате 'ХХХХ ХХХХ ХХХХ ХХХХ',
 в заданном диапазоне от 0000 0000 0000 0001 до 9999 9999 9999 9999.
++ `log` - декоратор, который логирует работу функции (`my_functions`) и ее результат,
+как в айл, так и в консоль
 
 ## Тестирование
 
-Проект покрыт юнит-тестами pytest:
+Проект включает юнит-тесты pytest:
 ```
 =================================================== test session starts ===================================================
 platform win32 -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
 rootdir: C:\Users\Oper\PycharmProjects\pythonProject\bank_widget
 configfile: pyproject.toml
 plugins: cov-6.0.0
-collected 51 items                                                                                                         
+collected 59 items                                                                                                         
 
-tests\test_generators.py ..............                                                                              [ 27%]
-tests\test_masks.py ............                                                                                     [ 50%]
-tests\test_processing.py ........                                                                                    [ 66%]
+tests\test_decorators.py ........                                                                                    [ 13%]
+tests\test_generators.py ..............                                                                              [ 37%]
+tests\test_masks.py ............                                                                                     [ 57%]
+tests\test_processing.py ........                                                                                    [ 71%]
 tests\test_widget.py .................                                                                               [100%]
 
 ---------- coverage: platform win32, python 3.13.1-final-0 -----------
 Name                       Stmts   Miss  Cover
 ----------------------------------------------
+decorators.py                 39      8    79%
 src\__init__.py                0      0   100%
 src\generators.py             38      2    95%
 src\masks.py                  19      2    89%
 src\processing.py             23      0   100%
-src\widget.py                 30      0   100%
+src\widget.py                 32      1    97%
 tests\__init__.py              0      0   100%
 tests\conftest.py             44      1    98%
+tests\test_decorators.py      43      4    91%
 tests\test_generators.py      54      0   100%
 tests\test_masks.py           17      0   100%
 tests\test_processing.py      16      0   100%
 tests\test_widget.py          23      2    91%
 ----------------------------------------------
-TOTAL                        264      7    97%
+TOTAL                        348     20    94%
+
+
+=================================================== 59 passed in 0.35s ====================================================
 ```
 
 Для запуска тестов выполните команду:
@@ -285,6 +299,23 @@ poetry run pytest --cov
 0000 0000 0000 0005
 ```
 
+9. Пример работы декоратора `log`:
+
+пример исполтзования декоратора:
+
+```
+@log(filename="mylog.txt")
+def my_function(x, y):
+    return x + y
+
+my_function(1, 2)
+
+```
+ожидаемый вывод в лог-файл `mylog.txt` при успешном выполнении:
+
+```
+my_function ok
+```
 ## Документация:
 
 Для получения дополнительной информации по установке проекта обратитесь к [документации](docs/README.md).

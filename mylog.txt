@@ -1,4 +1,4 @@
 'my_function' with args: (8.8, 4) and kwargs: {}. 
 Result = 2.2.
-Function call time: 2025-01-04 22:27:25.917138.
-Time execution: 0.0000031
+Function call time: 2025-01-04 23:53:16.990211.
+Time execution: 0.0000010
