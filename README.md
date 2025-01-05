@@ -67,23 +67,10 @@ poetry install
 
 Проект включает юнит-тесты pytest:
 ```
-=================================================== test session starts ===================================================
-platform win32 -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
-rootdir: C:\Users\Oper\PycharmProjects\pythonProject\bank_widget
-configfile: pyproject.toml
-plugins: cov-6.0.0
-collected 59 items                                                                                                         
-
-tests\test_decorators.py ........                                                                                    [ 13%]
-tests\test_generators.py ..............                                                                              [ 37%]
-tests\test_masks.py ............                                                                                     [ 57%]
-tests\test_processing.py ........                                                                                    [ 71%]
-tests\test_widget.py .................                                                                               [100%]
-
 ---------- coverage: platform win32, python 3.13.1-final-0 -----------
 Name                       Stmts   Miss  Cover
 ----------------------------------------------
-decorators.py                 39      8    79%
+decorators.py                 39      2    95%
 src\__init__.py                0      0   100%
 src\generators.py             38      2    95%
 src\masks.py                  19      2    89%
@@ -91,16 +78,13 @@ src\processing.py             23      0   100%
 src\widget.py                 32      1    97%
 tests\__init__.py              0      0   100%
 tests\conftest.py             44      1    98%
-tests\test_decorators.py      43      4    91%
+tests\test_decorators.py      19      0   100%
 tests\test_generators.py      54      0   100%
 tests\test_masks.py           17      0   100%
 tests\test_processing.py      16      0   100%
 tests\test_widget.py          23      2    91%
 ----------------------------------------------
-TOTAL                        348     20    94%
-
-
-=================================================== 59 passed in 0.35s ====================================================
+TOTAL                        324     10    97%
 ```
 
 Для запуска тестов выполните команду:
@@ -301,20 +285,33 @@ poetry run pytest --cov
 
 9. Пример работы декоратора `log`:
 
-пример исполтзования декоратора:
+пример использования декоратора:
 
 ```
 @log(filename="mylog.txt")
 def my_function(x, y):
-    return x + y
+"""
+    Выполняет деление полученных значений
+    :param x:
+    :param y:
+    :return:
+    """
+    if y == 0:
+        raise ZeroDivisionError("Cannot divide by zero")
+    if not ((type(x) is int or type(x) is float) and (type(y) is int or type(x) is float)):
+        raise TypeError("Value must be an integer or float")
+    return x / y
 
-my_function(1, 2)
+print(my_function(1, 2))
 
 ```
-ожидаемый вывод в лог-файл `mylog.txt` при успешном выполнении:
+вывод в лог-файл `mylog.txt` при успешном выполнении:
 
 ```
-my_function ok
+my_function with args: (1, 2) and kwargs: {}. 
+Result = 0.5.
+Function call time: 2025-01-05 18:04:07.298253.
+Time execution: 0.0000019
 ```
 ## Документация:
 

@@ -28,7 +28,7 @@ def mask_account_card(card_or_account_number: str) -> str:
                     total_result = name_mask + result
                     return total_result
 
-                elif (13 <= len(n_f_m) <= 19 and len(n_f_m) != 14 and len(n_f_m) != 17 and n_f_m.isdigit() is True):
+                elif 13 <= len(n_f_m) <= 19 and len(n_f_m) != 14 and len(n_f_m) != 17 and n_f_m.isdigit() is True:
                     result = get_mask_card_number(n_f_m)
                     total_result = name_mask + result
                     return total_result
