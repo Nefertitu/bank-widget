@@ -1,0 +1,4 @@
+my_function with args: (1, 5) and kwargs: {}. 
+Result = 0.2.
+Function call time: 2025-01-05 18:24:40.391226.
+Time execution: 0.0000029

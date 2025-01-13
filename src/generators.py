@@ -1,9 +1,7 @@
 from typing import Any, Generator
 
 
-def filter_by_currency(
-    list_dicts: list[dict[str, Any]], currency_type: str
-) -> Generator[list[dict[str, Any]]] | str | None:
+def filter_by_currency(list_dicts: list[dict[str, Any]], currency_type: str) -> Any:
     """
     Функция принимает список словарей с транзакциями и возвращает итератор,
     выдающий поочередно транзакции, соответствующие заданной валюте
@@ -33,7 +31,7 @@ def filter_by_currency(
 # print(next(result_filter))
 
 
-def transactions_descriptions(list_dicts: list[dict[str, Any]]) -> Generator[list[str]] | str:
+def transactions_descriptions(list_dicts: list[dict[str, Any]]) -> Any:
     """
     Функция принимает список словарей с транзакциями и возвращает итератор,
     выдающий описание каждой операции по очереди
@@ -75,11 +73,11 @@ def card_number_generator(start: int = 1, stop: int = 1) -> Generator[list[str]]
     :return:
     """
 
-    num = 10000000000000000
+    num = 10**16
 
     if type(start) is int and type(stop) is int:
 
-        if 10000000000000000 > start != 0 and 10000000000000000 > stop != 0:
+        if num > start != 0 and num > stop != 0:
 
             if start > stop:
                 cards_numbers = (str((num + x)).lstrip("1") for x in range(stop, start + 1))
@@ -92,7 +90,7 @@ def card_number_generator(start: int = 1, stop: int = 1) -> Generator[list[str]]
                 for number in cards_numbers:
                     yield f"{str(number[:4])} {str(number[4:8])} {str(number[8:12])} {str(number[12:])}"
 
-            if stop == 9999999999999999 or start == 9999999999999999:
+            if stop == num - 1 or start == num - 1:
                 yield "!!!доcтигнуто предельное значение номера карты - '9999 9999 9999 9999'!!!"
 
         else:

@@ -18,12 +18,18 @@
 * `src\generators.py` - модуль, содержащий функцию фильтрации списков словарей с данными 
 о банковских операциях по заданной валюте, функцию, возвращающую описание каждой операции 
 по очереди, функцию - генератор омеров банковских карт
+* `src\decorstors.py` - модуль с декоратором `log`, который может автомаически логировать 
+начало и конец выполнения функции, а также ее результаты и возникшие ошибки. Декоратор
+принимает необязательный аргумент `filename`, который определяет, куда будут
+записываться логи (в файл или в консоль)
+* `mylog.txt` - файл для записи логов  
 * `main.py` - модуль, реализующий логику проекта
 * `tests\conftest.py` - модуль с фикстурами
 * `tests\test_masks.py` - модуль с тестами для `masks.py`
 * `tests\test_widget.py` - модуль с тестами для `widget.py`
 * `tests\test_processing.py` - модуль с тестами для `processing.py`
 * `tests\test_generators.py` - модуль с тестами для `generators.py`
+* `tests\test_decorators.py` - модуль с тестами для декоратора `decorators.py` 
 * `htmlcov\index.html` - отчет о покрытии тестами
 
 ## Установка:
@@ -52,41 +58,33 @@ poetry install
 + `filter_by_currency` - возвращает итератор, который поочередно выдает транзакции,
 где валюта операции соответствует заданной;
 + `transaction_descriptions` - генератор, возвращает описание каждой операции по очереди;
-+ `card_number_generator` - генераторб генерирует номера карт в формате 'ХХХХ ХХХХ ХХХХ ХХХХ',
++ `card_number_generator` - генератор генерирует номера карт в формате 'ХХХХ ХХХХ ХХХХ ХХХХ',
 в заданном диапазоне от 0000 0000 0000 0001 до 9999 9999 9999 9999.
++ `log` - декоратор, который логирует работу функции (`my_functions`) и ее результат,
+как в айл, так и в консоль
 
 ## Тестирование
 
-Проект покрыт юнит-тестами pytest:
+Проект включает юнит-тесты pytest:
 ```
-=================================================== test session starts ===================================================
-platform win32 -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
-rootdir: C:\Users\Oper\PycharmProjects\pythonProject\bank_widget
-configfile: pyproject.toml
-plugins: cov-6.0.0
-collected 51 items                                                                                                         
-
-tests\test_generators.py ..............                                                                              [ 27%]
-tests\test_masks.py ............                                                                                     [ 50%]
-tests\test_processing.py ........                                                                                    [ 66%]
-tests\test_widget.py .................                                                                               [100%]
-
 ---------- coverage: platform win32, python 3.13.1-final-0 -----------
 Name                       Stmts   Miss  Cover
 ----------------------------------------------
+decorators.py                 39      2    95%
 src\__init__.py                0      0   100%
 src\generators.py             38      2    95%
 src\masks.py                  19      2    89%
 src\processing.py             23      0   100%
-src\widget.py                 30      0   100%
+src\widget.py                 32      1    97%
 tests\__init__.py              0      0   100%
 tests\conftest.py             44      1    98%
+tests\test_decorators.py      19      0   100%
 tests\test_generators.py      54      0   100%
 tests\test_masks.py           17      0   100%
 tests\test_processing.py      16      0   100%
 tests\test_widget.py          23      2    91%
 ----------------------------------------------
-TOTAL                        264      7    97%
+TOTAL                        324     10    97%
 ```
 
 Для запуска тестов выполните команду:
@@ -285,6 +283,36 @@ poetry run pytest --cov
 0000 0000 0000 0005
 ```
 
+9. Пример работы декоратора `log`:
+
+пример использования декоратора:
+
+```
+@log(filename="mylog.txt")
+def my_function(x, y):
+"""
+    Выполняет деление полученных значений
+    :param x:
+    :param y:
+    :return:
+    """
+    if y == 0:
+        raise ZeroDivisionError("Cannot divide by zero")
+    if not ((type(x) is int or type(x) is float) and (type(y) is int or type(x) is float)):
+        raise TypeError("Value must be an integer or float")
+    return x / y
+
+print(my_function(1, 2))
+
+```
+вывод в лог-файл `mylog.txt` при успешном выполнении:
+
+```
+my_function with args: (1, 2) and kwargs: {}. 
+Result = 0.5.
+Function call time: 2025-01-05 18:04:07.298253.
+Time execution: 0.0000019
+```
 ## Документация:
 
 Для получения дополнительной информации по установке проекта обратитесь к [документации](docs/README.md).
