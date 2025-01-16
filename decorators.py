@@ -68,4 +68,4 @@ def my_function(x: int | float, y: int | float) -> Any:
     return x / y
 
 
-print(my_function(1, 2))
+print(my_function(0, 5))

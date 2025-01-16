@@ -188,3 +188,85 @@ def list_dict_after_filter_by_currency() -> list[dict[str, Any]]:
             "to": "Visa Platinum 8990922113665229",
         },
     ]
+
+
+@pytest.fixture
+def apilayer_return() -> dict:
+    """Возвращает словарь с данными о конвертации транзакции
+    (ответ сайта `https://api.apilayer.com`)"""
+    return {
+  "date": "2025-01-15",
+  "info": {
+    "rate": 103.003538,
+    "timestamp": 1736854983
+  },
+  "query": {
+    "amount": 50,
+    "from": "EUR",
+    "to": "RUB"
+  },
+  "result": 5287.71715,
+  "success": True
+}
+
+
+@pytest.fixture
+def data_eur() -> list[dict]:
+    """Возвращает словарь с транзакцией"""
+    return [{
+    "id": 214024827,
+    "state": "EXECUTED",
+    "date": "2018-12-20T16:43:26.929246",
+    "operationAmount": {
+      "amount": "50.0",
+      "currency": {
+        "name": "EUR",
+        "code": "EUR"
+      }
+    },
+    "description": "Перевод организации",
+    "from": "Счет 10848359769870775355",
+    "to": "Счет 21969751544412966366"
+  }]
+
+
+@pytest.fixture
+def data_for_test_utils() -> str:
+    return '''[
+  {
+    "id": 441945886,
+    "state": "EXECUTED",
+    "date": "2019-08-26T10:50:58.294041",
+    "operationAmount": {
+      "amount": "31957.58",
+      "currency": {
+        "name": "руб.",
+        "code": "RUB"
+      }
+    },
+    "description": "Перевод организации",
+    "from": "Maestro 1596837868705199",
+    "to": "Счет 64686473678894779589"
+  }
+]'''
+
+
+@pytest.fixture
+def data_for_test_utils_invalid() -> str:
+    return '''[
+  {
+    "id": 441945886,
+    "state": "EXECUTED",
+    "date": "2019-08-26T10:50:58.294041",
+    "operationAmount": {
+      "amount": "31957.58",
+      "currency": {
+        "name": "руб.",
+        "code": 'RUB'
+      }
+    },
+    "description": "Перевод организации",
+    "from": "Maestro 1596837868705199",
+    "to": "Счет 64686473678894779589"
+  }
+]'''

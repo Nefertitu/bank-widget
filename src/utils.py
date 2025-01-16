@@ -2,25 +2,38 @@ import json
 import os
 
 from json import JSONDecodeError
-
-path_to_dir = str(os.path.dirname(__file__).replace('src', 'data'))
-file_name = 'operations.json'
-path_to_file = os.path.join(path_to_dir, file_name)
+from typing import Any
 
 
-def get_read_file(path: str) -> list[dict]:
+def get_read_file(path: str) -> str | list[dict] | Any:
     try:
         with open(path, encoding='utf-8') as file:
             try:
                 operations_data = json.load(file)
+                operations_json = json.dumps(operations_data, indent=2, ensure_ascii=False)
+
             except JSONDecodeError:
-                print('Ошибка декодирования файла')
+                print('JSONDecodeError: Invalid JSON data.')
                 return []
+
     except FileNotFoundError:
-        print('Файл не найден')
+        print('FileNotFoundError: Файл не найден.')
         return []
 
-    return operations_data
+    return operations_json
 
+
+def path():
+    """
+
+    :return:
+    """
+    path_to_file = os.path.join(os.path.dirname(os.getcwd()), 'data','operations.json')
+
+    return path_to_file
+
+
+path_to_file = path()
 
 print(get_read_file(path_to_file))
+

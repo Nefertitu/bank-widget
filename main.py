@@ -1,6 +1,7 @@
 from decorators import my_function
 from src.generators import card_number_generator, filter_by_currency, transactions_descriptions
 from src.processing import filter_by_state, sort_by_date
+from src.utils import get_read_file, path_to_file
 from src.widget import get_data, mask_account_card
 
 if __name__ == "__main__":
@@ -100,11 +101,15 @@ if __name__ == "__main__":
     print()
 
 
-for card_number in card_number_generator(5, 1):
-    print(card_number)
+    for card_number in card_number_generator(5, 1):
+        print(card_number)
+        print()
+
+
+    print(my_function(1, 5))
+    print(my_function(1, "5"))
+    print(my_function(1, 0))
     print()
 
+    print(get_read_file('./data/operations.json'))
 
-print(my_function(1, 5))
-print(my_function(1, "5"))
-print(my_function(1, 0))
