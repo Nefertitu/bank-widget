@@ -1,4 +1,4 @@
-from decorators import log, my_function
+from decorators import my_function
 
 
 def test_log_is_none_negative_zero_console(capsys):
@@ -21,4 +21,3 @@ def test_log_is_none_negative_type_error_console(capsys):
 
 def test_log_is_none_positive():
     assert my_function(1, 5) == "my_function with args: (1, 5) and kwargs: {}. Result = 0.2."
-
