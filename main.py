@@ -1,6 +1,11 @@
+import os
+from typing import Any
+
 from decorators import my_function
+from src.external_api import data_for_test_rub, get_conversion_apilayer, get_random_number
 from src.generators import card_number_generator, filter_by_currency, transactions_descriptions
 from src.processing import filter_by_state, sort_by_date
+from src.utils import get_read_file
 from src.widget import get_data, mask_account_card
 
 if __name__ == "__main__":
@@ -99,12 +104,64 @@ if __name__ == "__main__":
 
     print()
 
+    for card_number in card_number_generator(5, 1):
+        print(card_number)
+        print()
 
-for card_number in card_number_generator(5, 1):
-    print(card_number)
+    print(my_function(1, 5))
+    print(my_function(1, "5"))
+    print(my_function(1, 0))
     print()
 
 
-print(my_function(1, 5))
-print(my_function(1, "5"))
-print(my_function(1, 0))
+def path() -> str:
+    """
+    Возвращает путь к файлу `operations.json`
+    :return:
+    """
+
+    path_to_file = os.path.join(os.getcwd(), "data", "operations.json")
+
+    return path_to_file
+
+
+def main() -> int | str | list[dict[Any, Any]] | Any:
+    """
+    Объединяет действия других функций:
+    - чтение JSON-файла с транзакциями;
+    - рандомный выбор словаря с данными о транзакциях;
+    - возврат суммы транзакции из выбранного словаря в рублях;
+    - обращение к внешнему API для получения текущего курса валют и конвертации суммы операции
+    в рубли, если транзакция была выполнена в другой валюте
+    :return:
+    """
+    path_to_file = path()
+    data_transactions = get_read_file(path_to_file)
+    random_number = get_random_number(data_transactions)
+    result_transactions = get_conversion_apilayer(random_number, data_transactions)
+
+    return result_transactions
+
+
+def main_rub() -> str | list[dict[Any, Any]] | Any:
+    """
+    Объединяет действия других функций:
+    - получение данных из файла с транзакциями, проведенными в рублях;
+    - рандомный выбор словаря с данными о транзакциях;
+    - возврат суммы транзакции из выбранного словаря
+    :return:
+    """
+
+    transactions_rub = data_for_test_rub()
+    random_number = get_random_number(transactions_rub)
+    result_transactions = get_conversion_apilayer(random_number, transactions_rub)
+
+    return result_transactions
+
+
+if __name__ == "__main__":
+
+    print(main())
+    print()
+
+    print(main_rub())
