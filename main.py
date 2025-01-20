@@ -4,18 +4,18 @@ from typing import Any
 from decorators import my_function
 from src.external_api import data_for_test_rub, get_conversion_apilayer, get_random_number
 from src.generators import card_number_generator, filter_by_currency, transactions_descriptions
-from src.masks import main_card, main_account
+from src.masks import main_card_1, main_card_2, main_account_1, main_account_2
 from src.processing import filter_by_state, sort_by_date
-from src.utils import get_read_file
+from src.utils import get_read_file, main_read_1, main_read_2, main_read_3
 from src.widget import get_data, mask_account_card
 
 if __name__ == "__main__":
-    #
-    # print(mask_account_card("Visa Platinum 7000792289606361"))
-    # print()
-    #
-    # print(mask_account_card("Счет 64686473678894779589"))
-    # print()
+
+    print(mask_account_card("Visa Platinum 7000792289606361"))
+    print()
+
+    print(mask_account_card("Счет 64686473678894779589"))
+    print()
 
     print(get_data("2024-03-11T02:26:18.671407"))
     print()
@@ -161,14 +161,23 @@ def main_rub() -> str | list[dict[Any, Any]] | Any:
 
 
 if __name__ == "__main__":
+    #
+    # print(main())
+    # print()
+    #
+    # print(main_rub())
+    # print()
 
-    print(main())
+    print(main_card_1())
+    print()
+    # print(main_card_2())
     print()
 
-    print(main_rub())
+    print(main_account_1())
+    print()
+    # print(main_account_2())
     print()
 
-    print(main_card())
-    print()
-
-    print(main_account())
+    # print(main_read_1())
+    # print(main_read_2())
+    print(main_read_3())

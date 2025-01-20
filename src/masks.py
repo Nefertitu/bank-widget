@@ -1,5 +1,6 @@
 import logging
 
+root_logger = logging.getLogger()
 mask_card_logger = logging.getLogger("app.mask_card")
 mask_account_logger = logging.getLogger("app.mask_account")
 main_logger = logging.getLogger("app.main")
@@ -65,7 +66,7 @@ def get_mask_account(account_number: str) -> str:
     return ""
 
 
-def main_card() -> tuple[str, str, str]:
+def main_card_1() -> tuple[str, str, str]:
     main_logger.info("\nЗапуск приложения c тестовыми данными")
     main_logger.info("\nТест_№1")
     result_1 = get_mask_card_number("")
@@ -77,7 +78,19 @@ def main_card() -> tuple[str, str, str]:
     return result_1, result_2, result_3
 
 
-def main_account() -> tuple[str, str, str]:
+def main_card_2() -> tuple[str, str, str]:
+    main_logger.info("\nЗапуск приложения c тестовыми данными")
+    main_logger.info("\nТест_№1")
+    result_1 = get_mask_card_number("")
+    main_logger.info("\nТест_№2")
+    result_2 = get_mask_card_number("220002021725")
+    main_logger.info("\nТест_№3")
+    result_3 = get_mask_card_number("2200020217251111")
+    main_logger.info("\nЗавершение работы приложения\n\n")
+    return result_1, result_2, result_3
+
+
+def main_account_1() -> tuple[str, str, str]:
     main_logger.info("\nЗапуск приложения с тестовыми данными")
     main_logger.info("\nТест_№1")
     result_1 = get_mask_account("")
@@ -85,11 +98,15 @@ def main_account() -> tuple[str, str, str]:
     result_2 = get_mask_account("123456789123")
     main_logger.info("\nТест_№3")
     result_3 = get_mask_account("12345678912345678912")
-    main_logger.info("\nЗавершение работы приложения")
+    main_logger.info("\nЗавершение работы приложения\n\n")
     return result_1, result_2, result_3
 
 
-print(main_card())
-print()
-
-print(main_account())
+def main_account_2() -> tuple[str, str]:
+    main_logger.info("\nЗапуск приложения с тестовыми данными")
+    main_logger.info("\nТест_№1")
+    result_1 = get_mask_account("9999999999999")
+    main_logger.info("\nТест_№2")
+    result_2 = get_mask_account("99999999999999999999")
+    main_logger.info("\nЗавершение работы приложения\n\n")
+    return result_1, result_2

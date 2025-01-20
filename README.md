@@ -11,7 +11,13 @@
 ## Структура проекта:
 
 * `src\masks.py` - модуль, содержащий две функции, создающие маску 
-номеров карт и счетов
+номеров карт и счетов и функции для вывода логов в файл:
+- `get_mask_card_number()`
+- `get_mask_account()`
+- `main_card_1()`
+- `main_card_2()`
+- `main_account_1()`
+- `main_account_2()`
 * `src\widget.py` - модуль, содержащий функцию, добавляющую к маскам 
 номеров карт и счетов их наименование, а также функцию приведения 
 получаемой даты в формат вида "ДД.ММ.ГГГГ" 
@@ -24,13 +30,20 @@
 начало и конец выполнения функции, а также ее результаты и возникшие ошибки. Декоратор
 принимает необязательный аргумент `filename`, который определяет, куда будут
 записываться логи (в файл или в консоль)
-* `src\utils.py` - модуль с функцией чтения JSON-файла
+* `src\utils.py` - модуль с несколькими функциями для чтения JSON-файла и вывода логов в файл:
+- `get_read_file()`
+- `main_read_1()`
+- `main_read_2()`
+- `main_read_3()`
 * `src\external_api.py` - модуль c несколькими функциями:
 - `get_conversion_apilayer()`
 - `get_random_number()`
-- `data_for_test_rub`
-* `data\operations.json` - файл с данными о транзакциях
-* `mylog.txt` - файл для записи логов  
+- `data_for_test_rub()`
+* `data\operations.json` - JSON-файл с данными о транзакциях
+* `data\operations_error.json` - JSON-файл с данными о транзакциях(с ошибкой в данных)
+* `mylog.txt` - файл для записи логов модуля `decorators.py`
+* `logs\masks.log` - файл для записи логов модуля `masks.py`
+* `logs\utils.log` - файл для записи логов модуля `utils.py`
 * `main.py` - модуль, реализующий логику проекта
 * `tests\conftest.py` - модуль с фикстурами
 * `tests\test_masks.py` - модуль с тестами для `masks.py`
@@ -60,7 +73,12 @@ poetry install
 Проект "Bank - widget" содержит модули, которые на бэкенде будут готовить 
 данные по банковским операциям клиентов, и выполняющие следующие функции:
 + `get_mask_card_number()`, - маскировка номера карты;
-+ `get_mask_account()` - маскировка номера счета;
++ `get_mask_account()` - маскировка номера счета, логирование результатов выполнения функции 
+в файл `logs\masks.log`;
++ `main_card_1` - логирование тестов №№1, 2, 3;
++ `main_card_2` - логирование тестов №№1, 2, 3;
++ `main_account_1` - логирование тестов №№1, 2, 3; 
++ `main_account_2` - логирование тестов №№1, 2; 
 + `mask_account_card()` - маскировка номеров карт и счетов с названиями
 + `get_date()` - преобразование формата даты проведенной банковской операции;
 + `filter_by_state()` фильтр проведенных операций по заданному параметру (выполненные операции, 
@@ -75,7 +93,11 @@ poetry install
 + `log()` - декоратор, который логирует работу функции (`my_functions`) и ее результат,
 как в айл, так и в консоль;
 + `get_read_file()` - читает JSON-файл и возвращает список словарей с данными о финансовых 
-транзакциях, если файл пустой или содержит некорректные данные, возвращает пустой список$
+транзакциях, если файл пустой или содержит некорректные данные, возвращает пустой список, 
+логирует вывод функции в файл `logs\utils.log`;
++ `main_read_1()` - логирование теста №1;
++ `main_read_2()` - логирование теста №2;
++ `main_read_3()` - логирование теста №3;
 + `path()` - формирует путь до JSON-файла из модуля `main.py`;
 + `data_for_test_rub()` - возвращает список слвоарей с транзакциями в рублях для теста функций;
 + `get_random_number()` - возвращает рандомный номер транзакции с учетом общего 
@@ -102,51 +124,6 @@ poetry install
 
 *Текущие результаты тестирования:*
 
-```
-(.venv) ~\PycharmProjects\pythonProject\bank_widget git:[feature/homework_12_1]
-poetry run pytest --cov
-======================================================== test session starts == 
-platform win32 -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
-rootdir: C:\Users\Oper\PycharmProjects\pythonProject\bank_widget
-configfile: pyproject.toml
-plugins: cov-6.0.0
-collected 71 items                                                                                                                   
-
-tests\test_decorators.py ....                                            [  5%]
-tests\test_external_api.py ..........                                    [ 19%]
-tests\test_generators.py ..............                                  [ 39%]
-tests\test_masks.py ............                                         [ 56%]
-tests\test_processing.py ........                                        [ 67%]
-tests\test_utils.py ......                                               [ 76%]
-tests\test_widget.py .................                                   [100%]
-
----------- coverage: platform win32, python 3.13.1-final-0 -----------
-Name                         Stmts   Miss  Cover
-------------------------------------------------
-decorators.py                   39     10    74%
-src\__init__.py                  0      0   100%
-src\external_api.py             49      5    90%
-src\generators.py               38      2    95%
-src\masks.py                    19      2    89%
-src\processing.py               23      0   100%
-src\utils.py                    16      0   100%
-src\widget.py                   32      1    97%
-tests\__init__.py                0      0   100%
-tests\conftest.py               59      3    95%
-tests\test_decorators.py        15      0   100%
-tests\test_external_api.py      56      0   100%
-tests\test_generators.py        54      0   100%
-tests\test_masks.py             17      0   100%
-tests\test_processing.py        16      0   100%
-tests\test_utils.py             32      0   100%
-tests\test_widget.py            23      2    91%
-------------------------------------------------
-TOTAL                          488     25    95%
-
-
-======================================================== 71 passed in 1.06s == 
-```
-
 Для запуска тестов выполните команду:
 - при активированном виртуальном окружении:
 ```
@@ -157,6 +134,50 @@ pytest --cov
 ```
 poetry run pytest --cov
 ```
+
+```
+======================================================== test session starts ==
+platform win32 -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
+rootdir: C:\Users\Oper\PycharmProjects\pythonProject\bank_widget
+configfile: pyproject.toml
+plugins: cov-6.0.0
+collected 71 items                                                                                                                   
+
+tests\test_decorators.py ....                                     [  5%]
+tests\test_external_api.py ..........                             [ 19%]
+tests\test_generators.py ..............                           [ 39%]
+tests\test_masks.py ............                                  [ 56%]
+tests\test_processing.py ........                                 [ 67%]
+tests\test_utils.py ......                                        [ 76%]
+tests\test_widget.py .................                            [100%]
+
+---------- coverage: platform win32, python 3.13.1-final-0 -----------
+Name                         Stmts   Miss  Cover
+------------------------------------------------
+decorators.py                   38      4    89%
+src\__init__.py                  0      0   100%
+src\external_api.py             45      5    89%
+src\generators.py               38      2    95%
+src\masks.py                    79     37    53%
+src\processing.py               23      0   100%
+src\utils.py                    47     15    68%
+src\widget.py                   33      1    97%
+tests\__init__.py                0      0   100%
+tests\conftest.py               59      3    95%
+tests\test_decorators.py        15      0   100%
+tests\test_external_api.py      55      0   100%
+tests\test_generators.py        54      0   100%
+tests\test_masks.py             17      0   100%
+tests\test_processing.py        16      0   100%
+tests\test_utils.py             32      0   100%
+tests\test_widget.py            23      2    91%
+------------------------------------------------
+TOTAL                          574     69    88%
+
+
+======================================================== 71 passed in 1.06s ===
+```
+
 - в папке `htmlcov\` проекта содержится файл `index.html` с отчетом о покрытии тестами
 - в рамках тестирования проекта использованы фикстуры, параметризация тестов,
 а также тестирование исключений с помощью `pytest.raises`.
