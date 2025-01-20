@@ -52,7 +52,7 @@ def log(filename: None | str = None) -> Any:
     return decorator
 
 
-@log(filename="mylog.txt")
+@log()
 def my_function(x: int | float, y: int | float) -> Any:
     """
     Выполняет деление полученных значений
@@ -68,4 +68,4 @@ def my_function(x: int | float, y: int | float) -> Any:
     return x / y
 
 
-# print(my_function(1, 2))
+print(my_function(0, 5))
