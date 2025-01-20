@@ -170,14 +170,14 @@ if __name__ == "__main__":
 
     print(main_card_1())
     print()
-    # print(main_card_2())
+    print(main_card_2())
     print()
 
     print(main_account_1())
     print()
-    # print(main_account_2())
+    print(main_account_2())
     print()
 
-    # print(main_read_1())
-    # print(main_read_2())
+    print(main_read_1())
+    print(main_read_2())
     print(main_read_3())
