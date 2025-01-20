@@ -17,7 +17,8 @@ main_logger.setLevel(logging.DEBUG)
 
 def get_mask_card_number(card_number: str) -> str:
     """
-    Функция принимает на вход номер карты и возвращает ее маску
+    Функция принимает на вход номер карты и возвращает ее маску,
+    логирует результаты выполнения функции в файл
     :param card_number:
     :return:
     """
@@ -42,7 +43,8 @@ def get_mask_card_number(card_number: str) -> str:
 
 def get_mask_account(account_number: str) -> str:
     """
-    Функция принимает на вход номер счета и возвращает его маску
+    Функция принимает на вход номер счета и возвращает его маску,
+    логирует результаты выполнения функции в файл
     :param account_number:
     :return:
     """
@@ -67,6 +69,7 @@ def get_mask_account(account_number: str) -> str:
 
 
 def main_card_1() -> tuple[str, str, str]:
+    """Логирует тесты(№№1 - 3) функции `get_mask_card_number()`"""
     main_logger.info("\nЗапуск приложения c тестовыми данными")
     main_logger.info("\nТест_№1")
     result_1 = get_mask_card_number("")
@@ -79,6 +82,7 @@ def main_card_1() -> tuple[str, str, str]:
 
 
 def main_card_2() -> tuple[str, str, str]:
+    """Логирует тесты(№№1 - 3) функции `get_mask_card_number()`"""
     main_logger.info("\nЗапуск приложения c тестовыми данными")
     main_logger.info("\nТест_№1")
     result_1 = get_mask_card_number("")
@@ -91,6 +95,7 @@ def main_card_2() -> tuple[str, str, str]:
 
 
 def main_account_1() -> tuple[str, str, str]:
+    """Логирует тесты(№№1 - 3) функции `get_mask_account()`"""
     main_logger.info("\nЗапуск приложения с тестовыми данными")
     main_logger.info("\nТест_№1")
     result_1 = get_mask_account("")
@@ -103,6 +108,7 @@ def main_account_1() -> tuple[str, str, str]:
 
 
 def main_account_2() -> tuple[str, str]:
+    """Логирует тесты(№1, №2) функции `get_mask_account()`"""
     main_logger.info("\nЗапуск приложения с тестовыми данными")
     main_logger.info("\nТест_№1")
     result_1 = get_mask_account("9999999999999")

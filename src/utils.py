@@ -17,7 +17,7 @@ main_utils_logger.setLevel(logging.DEBUG)
 def get_read_file(path_to_file: str) -> str | list[dict] | Any:
     """
     Принимает на вход путь до JSON-файла и возвращает список словарей
-    с данными о финансовых транзакциях
+    с данными о финансовых транзакциях, логирует результаты выполнения функции в файл
     :param path_to_file:
     :return:
     """
@@ -26,13 +26,17 @@ def get_read_file(path_to_file: str) -> str | list[dict] | Any:
         with open(path_to_file, encoding="utf-8") as file:
             try:
                 operations_data = json.load(file)
-                utils_logger.info(f'\nДанные из JSON-формата успешно преобразованы в список словарей '
-                                  f'\nс данными о финансовых транзакциях и выведены в консоль в следующем виде:'
-                                  f'\n{operations_data}')
+                utils_logger.info(
+                    f"\nДанные из JSON-формата успешно преобразованы в список словарей "
+                    f"\nс данными о финансовых транзакциях и выведены в консоль в следующем виде:"
+                    f"\n{operations_data}"
+                )
 
             except JSONDecodeError as exc_info:
                 print("JSONDecodeError: Invalid JSON data.")
-                utils_logger.error(f"\nFunction '{get_read_file.__name__}' error: {type(exc_info).__name__}: {str(exc_info)}.")
+                utils_logger.error(
+                    f"\nFunction '{get_read_file.__name__}' error: {type(exc_info).__name__}: {str(exc_info)}."
+                )
                 return []
 
     except FileNotFoundError as exc_info:
@@ -43,7 +47,8 @@ def get_read_file(path_to_file: str) -> str | list[dict] | Any:
     return operations_data
 
 
-def main_read_1():
+def main_read_1() -> str | list[dict] | Any:
+    """Логирует тесты функции `get_read_file()`"""
     main_utils_logger.info("\nЗапуск приложения c тестовыми данными")
     main_utils_logger.info("\nТест_№1")
     result_1 = get_read_file("./data/operations.json")
@@ -51,7 +56,8 @@ def main_read_1():
     return result_1
 
 
-def main_read_2():
+def main_read_2() -> str | list[dict] | Any:
+    """Логирует тесты функции `get_read_file()`"""
     main_utils_logger.info("\nЗапуск приложения c тестовыми данными")
     main_utils_logger.info("\nТест_№2")
     result_2 = get_read_file("../data/operations.json")
@@ -59,11 +65,13 @@ def main_read_2():
     return result_2
 
 
-def main_read_3():
+def main_read_3() -> str | list[dict] | Any:
+    """Логирует тесты функции `get_read_file()`"""
     main_utils_logger.info("\nЗапуск приложения c тестовыми данными")
     main_utils_logger.info("\nТест_№3")
     result_3 = get_read_file("./data/operations_error.json")
     main_utils_logger.info("\nЗавершение работы приложения\n\n")
     return result_3
+
 
 # print(get_read_file('../data/operations.json'))

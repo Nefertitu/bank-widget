@@ -4,7 +4,7 @@ from typing import Any
 from decorators import my_function
 from src.external_api import data_for_test_rub, get_conversion_apilayer, get_random_number
 from src.generators import card_number_generator, filter_by_currency, transactions_descriptions
-from src.masks import main_card_1, main_card_2, main_account_1, main_account_2
+from src.masks import main_account_1, main_account_2, main_card_1, main_card_2
 from src.processing import filter_by_state, sort_by_date
 from src.utils import get_read_file, main_read_1, main_read_2, main_read_3
 from src.widget import get_data, mask_account_card
@@ -136,7 +136,7 @@ def main() -> int | str | list[dict[Any, Any]] | Any:
     в рубли, если транзакция была выполнена в другой валюте
     :return:
     """
-    path_to_file = path('data', 'operations.json')
+    path_to_file = path("data", "operations.json")
     data_transactions = get_read_file(path_to_file)
     random_number = get_random_number(data_transactions)
     result_transactions = get_conversion_apilayer(random_number, data_transactions)
@@ -161,12 +161,12 @@ def main_rub() -> str | list[dict[Any, Any]] | Any:
 
 
 if __name__ == "__main__":
-    #
-    # print(main())
-    # print()
-    #
-    # print(main_rub())
-    # print()
+
+    print(main())
+    print()
+
+    print(main_rub())
+    print()
 
     print(main_card_1())
     print()
