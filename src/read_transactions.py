@@ -15,15 +15,15 @@ def get_read_csv(path_to_file: str) -> DataFrame | str:
         return f'Function {get_read_csv.__name__} error: {type(exc_info).__name__}'
     except Exception as exc_info:
         return f'Error: {type(exc_info).__name__} - {str(exc_info)}'
+
     else:
-        return data_transactions.to_json(orient='records', indent=4, lines=True, force_ascii=False)
+        return data_transactions.head().to_json(orient='records', indent=4, lines=True, force_ascii=False)
 
 
 # print(get_read_csv('../transactions.csv'))
-print(get_read_csv('../transactions_sample.csv'))
 
 
-def get_read_excel(path_to_file: str) -> str | DataFrame:
+def get_read_excel(path_to_file: str) -> str | list[dict]:
     """
     Считывание данных о финансовых операциях из файла Excel
     :param path_to_file:
@@ -31,13 +31,16 @@ def get_read_excel(path_to_file: str) -> str | DataFrame:
     """
     try:
         data_transactions = pd.read_excel(path_to_file)
+
     except FileNotFoundError as exc_info:
         return f'Function {get_read_excel.__name__} error: {type(exc_info).__name__}'
     except Exception as exc_info:
         return f'Error: {type(exc_info)} - {str(exc_info)}'
+
     else:
-        pd.options.display.max_columns = None
-        return data_transactions
+        return data_transactions.head().to_dict(orient='records')
 
 
-print(get_read_excel('../transactions_excel.xlsx'))
+# data_transactions = get_read_excel('../transactions_excel.xlsx')
+# for dict in data_transactions:
+#     print(dict)
