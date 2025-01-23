@@ -4,7 +4,7 @@ from typing import Any
 from decorators import my_function
 from src.external_api import data_for_test_rub, get_conversion_apilayer, get_random_number
 from src.generators import card_number_generator, filter_by_currency, transactions_descriptions
-from src.masks import main_account_1, main_account_2, main_card_1, main_card_2
+from src.masks import main_account_1, main_card_1
 from src.processing import filter_by_state, sort_by_date
 from src.utils import get_read_file, main_read_1, main_read_2, main_read_3
 from src.widget import get_data, mask_account_card
@@ -170,12 +170,8 @@ if __name__ == "__main__":
 
     print(main_card_1())
     print()
-    print(main_card_2())
-    print()
 
     print(main_account_1())
-    print()
-    print(main_account_2())
     print()
 
     print(main_read_1())
