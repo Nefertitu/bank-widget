@@ -1,5 +1,4 @@
 import datetime
-import logging
 from functools import wraps
 from time import time
 from typing import Any
@@ -14,22 +13,25 @@ def log(filename: None | str = None) -> Any:
 
             except Exception as exc_info:
                 if filename:
-                    logging.basicConfig(
-                        level=logging.ERROR, filename="mylog.txt", filemode="w", format="%(message)s, \n%(asctime)s"
-                    )
+                    with open(filename, "w") as file:
+                        file.write(
+                            f"{function.__name__} error: {type(exc_info).__name__}: {str(exc_info)}. "
+                            f"Inputs: {args}, {kwargs}"
+                        )
+                        return (
+                            f"{function.__name__} error: {type(exc_info).__name__}: {str(exc_info)}. "
+                            f"Inputs: {args}, {kwargs}"
+                        )
 
-                    logging.error(
-                        f"{function.__name__} error: {type(exc_info).__name__}: {str(exc_info)}. "
-                        f"Inputs: {args}, {kwargs}"
-                    )
                 if filename is None:
-                    logging.basicConfig(level=logging.ERROR, format="%(message)s")
+
                     return (
                         f"{function.__name__} error: {type(exc_info).__name__}: {str(exc_info)}. "
                         f"Inputs: {args}, {kwargs}"
                     )
 
             else:
+
                 if filename is None:
                     result = function(*args, **kwargs)
                     return f"{function.__name__} with args: {args} and kwargs: {kwargs}. Result = {result}."
@@ -52,7 +54,7 @@ def log(filename: None | str = None) -> Any:
     return decorator
 
 
-@log()
+@log("mylog.txt")
 def my_function(x: int | float, y: int | float) -> Any:
     """
     Выполняет деление полученных значений
@@ -68,4 +70,4 @@ def my_function(x: int | float, y: int | float) -> Any:
     return x / y
 
 
-print(my_function(0, 5))
+# print(my_function(0, 5))

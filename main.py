@@ -4,8 +4,9 @@ from typing import Any
 from decorators import my_function
 from src.external_api import data_for_test_rub, get_conversion_apilayer, get_random_number
 from src.generators import card_number_generator, filter_by_currency, transactions_descriptions
+from src.masks import main_account_1, main_account_2, main_card_1, main_card_2
 from src.processing import filter_by_state, sort_by_date
-from src.utils import get_read_file
+from src.utils import get_read_file, main_read_1, main_read_2, main_read_3
 from src.widget import get_data, mask_account_card
 
 if __name__ == "__main__":
@@ -108,19 +109,19 @@ if __name__ == "__main__":
         print(card_number)
         print()
 
-    print(my_function(1, 5))
+    print(my_function(1, 2))
     print(my_function(1, "5"))
     print(my_function(1, 0))
     print()
 
 
-def path() -> str:
+def path(dir_name: str, file_name: str) -> str:
     """
     Возвращает путь к файлу `operations.json`
     :return:
     """
 
-    path_to_file = os.path.join(os.getcwd(), "data", "operations.json")
+    path_to_file = os.path.join(os.getcwd(), dir_name, file_name)
 
     return path_to_file
 
@@ -135,7 +136,7 @@ def main() -> int | str | list[dict[Any, Any]] | Any:
     в рубли, если транзакция была выполнена в другой валюте
     :return:
     """
-    path_to_file = path()
+    path_to_file = path("data", "operations.json")
     data_transactions = get_read_file(path_to_file)
     random_number = get_random_number(data_transactions)
     result_transactions = get_conversion_apilayer(random_number, data_transactions)
@@ -165,3 +166,18 @@ if __name__ == "__main__":
     print()
 
     print(main_rub())
+    print()
+
+    print(main_card_1())
+    print()
+    print(main_card_2())
+    print()
+
+    print(main_account_1())
+    print()
+    print(main_account_2())
+    print()
+
+    print(main_read_1())
+    print(main_read_2())
+    print(main_read_3())

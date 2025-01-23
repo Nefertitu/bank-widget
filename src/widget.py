@@ -1,7 +1,5 @@
 import re
 
-from src.masks import get_mask_account, get_mask_card_number
-
 
 def mask_account_card(card_or_account_number: str) -> str:
     """
@@ -24,12 +22,14 @@ def mask_account_card(card_or_account_number: str) -> str:
             if n_f_m != "" and name_mask != "":
 
                 if len(n_f_m) == 20 and re.findall(r"\b[Сс]ч[е|ё]т\b\s", name_mask) is not None:
-                    result = get_mask_account(n_f_m)
+                    result = f"**{n_f_m[16:]}"
                     total_result = name_mask + result
                     return total_result
 
                 elif 13 <= len(n_f_m) <= 19 and len(n_f_m) != 14 and len(n_f_m) != 17 and n_f_m.isdigit() is True:
-                    result = get_mask_card_number(n_f_m)
+                    number = str(n_f_m)
+                    star = "*"
+                    result = f"{number[:4]} {number[4:6]}** {star * (len(number) - 12)} {number[-4:]}"
                     total_result = name_mask + result
                     return total_result
 
