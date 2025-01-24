@@ -3,7 +3,6 @@ from unittest.mock import mock_open, patch
 import pandas as pd
 
 from src.read_transactions import get_read_csv, get_read_excel
-from tests.conftest import data_for_test_csv_result
 
 
 def test_get_read_csv(data_for_test_csv: str, data_for_test_csv_result: list[dict]):
@@ -36,7 +35,7 @@ def test_get_read_csv_file_not_found():
     assert result == "Function get_read_csv error: FileNotFoundError"
 
 
-@patch('pandas.read_excel')
+@patch("pandas.read_excel")
 def test_get_read_excel(mock_read_excel: pd.DataFrame):
     """
     Проверяет, что функция читает XLSX-файл и возвращает список словарей
@@ -45,19 +44,18 @@ def test_get_read_excel(mock_read_excel: pd.DataFrame):
     :return:
     """
 
-    sample_data = ({'id': [650703, 3598919],
-                   'description': ['Перевод организации', 'Перевод с карты на карту']})
+    sample_data = {"id": [650703, 3598919], "description": ["Перевод организации", "Перевод с карты на карту"]}
     mock_data = pd.DataFrame(sample_data)
     mock_read_excel.return_value = mock_data
     result = get_read_excel("sample")
     expected = [
-        {'id': 650703, 'description': 'Перевод организации'},
-        {'id': 3598919, 'description': 'Перевод с карты на карту'},
+        {"id": 650703, "description": "Перевод организации"},
+        {"id": 3598919, "description": "Перевод с карты на карту"},
     ]
     assert result == expected
 
 
-@patch('pandas.read_excel')
+@patch("pandas.read_excel")
 def test_get_read_excel_invalid(mock_read_excel: pd.DataFrame):
     """
     Проверяет, что функция читает пустой XLSX-файл и возвращает пустой список

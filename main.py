@@ -127,7 +127,7 @@ def path(dir_name: str, file_name: str) -> str:
     return path_to_file
 
 
-def main() -> int | str | list[dict[Any, Any]] | Any:
+def main() -> Any:
     """
     Объединяет действия других функций:
     - чтение JSON-файла с транзакциями;
@@ -145,7 +145,7 @@ def main() -> int | str | list[dict[Any, Any]] | Any:
     return result_transactions
 
 
-def main_rub() -> str | list[dict[Any, Any]] | Any:
+def main_rub() -> Any:
     """
     Объединяет действия других функций:
     - получение данных из файла с транзакциями, проведенными в рублях;
@@ -180,9 +180,9 @@ if __name__ == "__main__":
     print(main_read_3())
     print()
 
-    print(get_read_csv('./transactions.csv'))
+    print(get_read_csv("./transactions.csv"))
     print()
 
-    data_transactions = get_read_excel('./transactions_excel.xlsx')
+    data_transactions = get_read_excel("./transactions_excel.xlsx")
     for dict in data_transactions:
         print(dict)

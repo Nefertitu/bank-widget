@@ -1,9 +1,7 @@
 from typing import Any
-from unittest.mock import patch
 
 import pandas as pd
 import pytest
-from pandas import DataFrame
 
 
 @pytest.fixture
@@ -290,34 +288,16 @@ def data_for_test_csv() -> str:
 @pytest.fixture
 def data_for_test_csv_result() -> str | None:
     """Возвращает словари JSON с данными транзакций"""
-    sample_data_1 = {'id':[650703, 3598919, 593027, 366176, 5380041],
-                     'state': ['EXECUTED', 'EXECUTED', 'CANCELED', 'EXECUTED', 'CANCELED'],
-                     'description': ['Перевод организации', 'Перевод с карты на карту', 'Перевод с карты на карту', 'Перевод с карты на карту', 'Открытие вклада']}
+    sample_data_1 = {
+        "id": [650703, 3598919, 593027, 366176, 5380041],
+        "state": ["EXECUTED", "EXECUTED", "CANCELED", "EXECUTED", "CANCELED"],
+        "description": [
+            "Перевод организации",
+            "Перевод с карты на карту",
+            "Перевод с карты на карту",
+            "Перевод с карты на карту",
+            "Открытие вклада",
+        ],
+    }
     df = pd.DataFrame(sample_data_1)
-    return df.to_json(orient='records', indent=4, lines=True, force_ascii=False)
-
-
-@pytest.fixture
-def data_for_test_excel():
-    """Возвращает словари JSON с данными транзакций"""
-    sample_data = {'id':[650703, 3598919, 593027, 366176],
-                   'state': ['EXECUTED', 'EXECUTED', 'CANCELED', 'EXECUTED'],
-                   'date': ['2023-09-05T11:30:32Z', '2020-12-06T23:00:58Z', '2023-07-22T05:02:01Z', '2020-08-02T09:35:18Z'],
-                   'from': ['Счет 58803664561298323391', 'Discover 3172601889670065', 'Visa 1959232722494097', 'Discover 0325955596714937'],
-                   'to': ['Счет 39745660563456619397', 'Discover 0720428384694643', 'Visa 6804119550473710', 'Visa 3820488829287420'],
-                   'description': ['Перевод организации', 'Перевод с карты на карту', 'Перевод с карты на карту', 'Перевод с карты на карту']}
-
-    return sample_data
-
-
-def data_for_test_excel_result() -> pd.DataFrame:
-    """Возвращает словари JSON с данными транзакций"""
-    sample_data = {'id': [650703, 3598919, 593027, 366176],
-                   'state': ['EXECUTED', 'EXECUTED', 'CANCELED', 'EXECUTED'],
-                   'date': ['2023-09-05T11:30:32Z', '2020-12-06T23:00:58Z', '2023-07-22T05:02:01Z', '2020-08-02T09:35:18Z'],
-                   'from': ['Счет 58803664561298323391', 'Discover 3172601889670065', 'Visa 1959232722494097', 'Discover 0325955596714937'],
-                   'to': ['Счет 39745660563456619397', 'Discover 0720428384694643', 'Visa 6804119550473710', 'Visa 3820488829287420'],
-                   'description': ['Перевод организации', 'Перевод с карты на карту', 'Перевод с карты на карту', 'Перевод с карты на карту']}
-
-    # pd.options.display.max_columns = None
-    return pd.DataFrame(sample_data)
+    return df.to_json(orient="records", indent=4, lines=True, force_ascii=False)

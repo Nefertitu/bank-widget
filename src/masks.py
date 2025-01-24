@@ -86,3 +86,7 @@ def main_account_1() -> tuple[str, str, str]:
     result_3 = get_mask_account("12345678912345678912")
     logger.info("\nЗавершение работы приложения\n\n")
     return result_1, result_2, result_3
+
+
+print(main_account_1())
+print(get_mask_account("12345678912345678912"))

@@ -75,7 +75,7 @@ def get_conversion_apilayer(random_number: int, data_transactions: Any | list[di
 
 def get_random_number(transactions: list[dict[Any, Any]]) -> int | str:
     """
-    Возвращает рандомный номер или '1'
+    Возвращает рандомный номер или '1', либо сообщение "Список не должен быть пустым"
     :param transactions:
     :return:
     """
