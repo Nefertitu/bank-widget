@@ -9,7 +9,7 @@ load_dotenv()
 apilayer_key = os.getenv("API_KEY")
 
 
-def get_conversion_apilayer(random_number: int, data_transactions: Any | list[dict[Any, Any]]) -> Any:
+def get_conversion_apilayer(random_number: str | int, data_transactions: Any | list[dict[str, Any]]) -> Any:
     """
     Принимает на вход список транзакций, возвращает сумму транзакции, выбранной
     рандомно, в рублях. Если выбранная транзакция проведена не в рублях,
@@ -20,57 +20,58 @@ def get_conversion_apilayer(random_number: int, data_transactions: Any | list[di
     :return:
     """
     for _ in data_transactions:
-        random_transaction = data_transactions[random_number]
-        try:
-            currency_code = random_transaction["operationAmount"]["currency"]["code"]
-            amount = round(float(random_transaction["operationAmount"]["amount"]), 2)
+        if random_number is int:
+            random_transaction = data_transactions[random_number]
+            try:
+                currency_code = random_transaction["operationAmount"]["currency"]["code"]
+                amount = round(float(random_transaction["operationAmount"]["amount"]), 2)
 
-        except KeyError as exc_info:
-            return f"Error: {type(exc_info).__name__}, {str(exc_info)}"
-        except ValueError as exc_info:
-            return f"Error: {type(exc_info).__name__}, {str(exc_info)}"
-        except TypeError as exc_info:
-            return f"Error: {type(exc_info).__name__}, {str(exc_info)}"
+            except KeyError as exc_info:
+                return f"Error: {type(exc_info).__name__}, {str(exc_info)}"
+            except ValueError as exc_info:
+                return f"Error: {type(exc_info).__name__}, {str(exc_info)}"
+            except TypeError as exc_info:
+                return f"Error: {type(exc_info).__name__}, {str(exc_info)}"
 
-        else:
-            if currency_code == "RUB":
-                return f"Сумма транзакции составляет {amount} {currency_code}."
+            else:
+                if currency_code == "RUB":
+                    return f"Сумма транзакции составляет {amount} {currency_code}."
 
-            elif currency_code == "USD" or currency_code == "EUR":
-                headers = {"apikey": f"{apilayer_key}"}
-                try:
-                    response = requests.get(
-                        f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={currency_code}&"
-                        f"amount={amount}",
-                        headers=headers,
-                        data={},
-                        timeout=5,
-                    )
-                    status_code = response.status_code
-                    response.raise_for_status()
-
-                except requests.exceptions.Timeout:
-                    return "Request timed out. Please check your internet connection."
-
-                except requests.exceptions.ConnectionError:
-                    return "ConnectionError. Please check your internet connection."
-
-                except requests.exceptions.HTTPError:
-                    return "HTTP Error. Please check the URL."
-
-                else:
-
-                    if status_code == 200:
-                        return (
-                            f"Сумма транзакции составляет {response.json()['query']['amount']} "
-                            f"{response.json()['query']['from']} "
-                            f"или {round(response.json()['result'], 2)} рублей "
-                            f"в соответствии с текущим курсом валют на дату: {response.json()['date']}."
+                elif currency_code == "USD" or currency_code == "EUR":
+                    headers = {"apikey": f"{apilayer_key}"}
+                    try:
+                        response = requests.get(
+                            f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={currency_code}&"
+                            f"amount={amount}",
+                            headers=headers,
+                            data={},
+                            timeout=5,
                         )
+                        status_code = response.status_code
+                        response.raise_for_status()
 
-                    return response.json()
+                    except requests.exceptions.Timeout:
+                        return "Request timed out. Please check your internet connection."
 
-            return "Неверный код валюты"
+                    except requests.exceptions.ConnectionError:
+                        return "ConnectionError. Please check your internet connection."
+
+                    except requests.exceptions.HTTPError:
+                        return "HTTP Error. Please check the URL."
+
+                    else:
+
+                        if status_code == 200:
+                            return (
+                                f"Сумма транзакции составляет {response.json()['query']['amount']} "
+                                f"{response.json()['query']['from']} "
+                                f"или {round(response.json()['result'], 2)} рублей "
+                                f"в соответствии с текущим курсом валют на дату: {response.json()['date']}."
+                            )
+
+                        return response.json()
+
+        return "Неверный код валюты"
 
 
 def get_random_number(transactions: list[dict[Any, Any]]) -> int | str:
