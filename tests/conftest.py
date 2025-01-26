@@ -1,5 +1,6 @@
 from typing import Any
 
+import pandas as pd
 import pytest
 
 
@@ -205,7 +206,7 @@ def apilayer_return() -> dict:
 
 @pytest.fixture
 def data_eur() -> list[dict]:
-    """Возвращает словарь с транзакцией"""
+    """Возвращает словарь с данными транзакции"""
     return [
         {
             "id": 214024827,
@@ -221,7 +222,7 @@ def data_eur() -> list[dict]:
 
 @pytest.fixture
 def data_rub_no_currency() -> list[dict]:
-    """Возвращает словарь с транзакцией"""
+    """Возвращает словарь с данными транзакции"""
     return [
         {
             "id": 441945886,
@@ -237,6 +238,7 @@ def data_rub_no_currency() -> list[dict]:
 
 @pytest.fixture
 def data_for_test_1() -> str:
+    """Возвращает строку с данными транзакции"""
     return """[
   {
     "id": 441945886,
@@ -258,6 +260,7 @@ def data_for_test_1() -> str:
 
 @pytest.fixture
 def data_for_test_invalid() -> list[dict]:
+    """Возвращает словарь с неполными данными транзакции"""
     return [
         {
             "id": 441945886,
@@ -269,3 +272,32 @@ def data_for_test_invalid() -> list[dict]:
             "to": "Счет 64686473678894779589",
         }
     ]
+
+
+@pytest.fixture
+def data_for_test_csv() -> str:
+    """Возвращает строку с данными транзакции"""
+    return """id;state;description
+650703;EXECUTED;Перевод организации
+3598919;EXECUTED;Перевод с карты на карту
+593027;CANCELED;Перевод с карты на карту
+366176;EXECUTED;Перевод с карты на карту
+5380041;CANCELED;Открытие вклада"""
+
+
+@pytest.fixture
+def data_for_test_csv_result() -> str | None:
+    """Возвращает словари JSON с данными транзакций"""
+    sample_data_1 = {
+        "id": [650703, 3598919, 593027, 366176, 5380041],
+        "state": ["EXECUTED", "EXECUTED", "CANCELED", "EXECUTED", "CANCELED"],
+        "description": [
+            "Перевод организации",
+            "Перевод с карты на карту",
+            "Перевод с карты на карту",
+            "Перевод с карты на карту",
+            "Открытие вклада",
+        ],
+    }
+    df = pd.DataFrame(sample_data_1)
+    return df.to_json(orient="records", indent=4, lines=True, force_ascii=False)

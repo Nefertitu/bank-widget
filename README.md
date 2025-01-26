@@ -41,9 +41,10 @@
 - `data_for_test_rub()`
 * `data\operations.json` - JSON-файл с данными о транзакциях
 * `data\operations_error.json` - JSON-файл с данными о транзакциях(с ошибкой в данных)
-* `mylog.txt` - файл для записи логов модуля `decorators.py`
-* `logs\masks.log` - файл для записи логов модуля `masks.py`
-* `logs\utils.log` - файл для записи логов модуля `utils.py`
+* `logs\README.md` - README-файл
+* `src\read_transactions.py` - модуль с функциями чтения CSV- и XLSX-файлов:
+- `get_read_csv()`
+- `get_read_excel()`
 * `main.py` - модуль, реализующий логику проекта
 * `tests\conftest.py` - модуль с фикстурами
 * `tests\test_masks.py` - модуль с тестами для `masks.py`
@@ -53,6 +54,7 @@
 * `tests\test_decorators.py` - модуль с тестами для декоратора `decorators.py` 
 * `tests\test_external_api.py` - модуль с тестами для `external_api.py`
 * `tests\test_utils.py` - модуль с тестами для `utils.py`
+* `tests\test_read_trabsactions.py` - модуль с тестами для `transactions.py`
 * `htmlcov\index.html` - отчет о покрытии тестами
 * `.env.example` - шаблон для создания `.env` файла с переменными окружения(API - ключ)
 
@@ -102,10 +104,14 @@ poetry install
 + `data_for_test_rub()` - возвращает список слвоарей с транзакциями в рублях для теста функций;
 + `get_random_number()` - возвращает рандомный номер транзакции с учетом общего 
 количества транзакций;
-+ `get_conversion_apilayer()` - Принимает на вход список транзакций, возвращает сумму 
++ `get_conversion_apilayer()` - принимает на вход список транзакций, возвращает сумму 
 транзакции, выбранной рандомно, в рублях. Если выбранная транзакция проведена не в рублях,
 осуществляет конвертацию суммы транзакции в рубли, обращаясь к сайту:
 `https://api.apilayer.com/`;
++ `get_read_csv()` - считывает данные о финансовых операциях их CSV-файла и преобразует 
+их в JSON-формат;
++ `get_read_excel()` - считывает данные о финансовых операциях их XLSX-файла и преобразует 
+их в список словарей; 
 + `main()` - Объединяет действия других функций:
     - чтение JSON-файла с транзакциями;
     - рандомный выбор словаря с данными о транзакциях;
@@ -136,47 +142,49 @@ poetry run pytest --cov
 ```
 
 ```
-======================================================== test session starts ==
+============================== test session starts ===========================
 platform win32 -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
 rootdir: C:\Users\Oper\PycharmProjects\pythonProject\bank_widget
 configfile: pyproject.toml
 plugins: cov-6.0.0
-collected 71 items                                                                                                                   
+collected 82 items                                                                                                                   
 
-tests\test_decorators.py ....                                     [  5%]
-tests\test_external_api.py ..........                             [ 19%]
-tests\test_generators.py ..............                           [ 39%]
-tests\test_masks.py ............                                  [ 56%]
-tests\test_processing.py ........                                 [ 67%]
-tests\test_utils.py ......                                        [ 76%]
-tests\test_widget.py .................                            [100%]
+tests\test_decorators.py ....                            [  4%]
+tests\test_external_api.py ..........                    [ 17%]
+tests\test_generators.py ..............                  [ 34%]
+tests\test_masks.py ..............                       [ 51%]
+tests\test_processing.py ........                        [ 60%]
+tests\test_read_transactions.py ......                   [ 68%]
+tests\test_utils.py .........                            [ 79%]
+tests\test_widget.py .................                   [100%]
 
 ---------- coverage: platform win32, python 3.13.1-final-0 -----------
-Name                         Stmts   Miss  Cover
-------------------------------------------------
-decorators.py                   38      4    89%
-src\__init__.py                  0      0   100%
-src\external_api.py             45      5    89%
-src\generators.py               38      2    95%
-src\masks.py                    79     37    53%
-src\processing.py               23      0   100%
-src\utils.py                    47     15    68%
-src\widget.py                   33      1    97%
-tests\__init__.py                0      0   100%
-tests\conftest.py               59      3    95%
-tests\test_decorators.py        15      0   100%
-tests\test_external_api.py      55      0   100%
-tests\test_generators.py        54      0   100%
-tests\test_masks.py             17      0   100%
-tests\test_processing.py        16      0   100%
-tests\test_utils.py             32      0   100%
-tests\test_widget.py            23      2    91%
-------------------------------------------------
-TOTAL                          574     69    88%
+Name                              Stmts   Miss  Cover
+-----------------------------------------------------
+decorators.py                        37      4    89%
+src\__init__.py                       0      0   100%
+src\external_api.py                  45      5    89%
+src\generators.py                    38      2    95%
+src\masks.py                         57      1    98%
+src\processing.py                    23      0   100%
+src\read_transactions.py             18      2    89%
+src\utils.py                         44      0   100%
+src\widget.py                        33      1    97%
+tests\__init__.py                     0      0   100%
+tests\conftest.py                    68      3    96%
+tests\test_decorators.py             15      0   100%
+tests\test_external_api.py           55      0   100%
+tests\test_generators.py             54      0   100%
+tests\test_masks.py                  25      0   100%
+tests\test_processing.py             16      0   100%
+tests\test_read_transactions.py      34      0   100%
+tests\test_utils.py                  46      0   100%
+tests\test_widget.py                 23      2    91%
+-----------------------------------------------------
+TOTAL                               631     20    97%
 
 
-======================================================== 71 passed in 1.06s ===
-```
+======================================================== 82 passed in 1.24s ===
 
 - в папке `htmlcov\` проекта содержится файл `index.html` с отчетом о покрытии тестами
 - в рамках тестирования проекта использованы фикстуры, параметризация тестов,
@@ -406,7 +414,7 @@ Time execution: 0.0000019
 '''Сумма транзакции составляет 62654.3 USD или 6422003.28 рублей в соответствии с текущим 
 курсом валют на дату: 2025-01-17.'''
 
-10. Пример работы main_rub():
+11. Пример работы main_rub():
 Входные данные:
 `transactions_rub = data_for_test_rub()`
 `random_number = get_random_number(transactions_rub)`
@@ -414,6 +422,34 @@ Time execution: 0.0000019
 
 Выходные данные:
 '''Сумма транзакции составляет 55149.24 RUB.'''
+
+12. Пример работы get_read_csv():
+Входные данные - файл `transactions.csv`
+
+Выходные данные:
+```
+ {
+        "id":650703.0,
+        "state":"EXECUTED",
+        "date":"2023-09-05T11:30:32Z",
+        "amount":16210.0,
+        "currency_name":"Sol",
+        "currency_code":"PEN",
+        "from":"Счет 58803664561298323391",
+        "to":"Счет 39745660563456619397",
+        "description":"Перевод организации"
+    }
+...
+```
+
+13. Пример работы get_read_excel():
+Входные данные - файл `transactions_excel.xlsx`
+
+Выходные данные:
+```
+{'id': 650703.0, 'state': 'EXECUTED', 'date': '2023-09-05T11:30:32Z', 'amount': 16210.0, 'currency_name': 'Sol', 'currency_code': 'PEN', 'from': 'Счет 58803664561298323391', 'to': 'Счет 39745660563456619397', 'description': 'Перевод организации'}
+...
+```
 
 
 ## Документация:

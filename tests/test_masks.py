@@ -2,7 +2,7 @@ from typing import Any
 
 import pytest
 
-from src.masks import get_mask_account, get_mask_card_number
+from src.masks import get_mask_account, get_mask_card_number, main_account_1, main_card_1
 
 
 def test_get_mask_card_number(card_number_for_test: str) -> None:
@@ -87,3 +87,15 @@ def test_get_mask_account_zero() -> None:
     """
 
     assert get_mask_account("") == "пустой ввод"
+
+
+def test_main_card_1_console(capsys):
+    print(main_card_1())
+    captured = capsys.readouterr()
+    assert captured.out == "('пустой ввод', 'некорректный ввод данных', '1234 56** ****** 3789')\n"
+
+
+def test_main_account_1_console(capsys):
+    print(main_account_1())
+    captured = capsys.readouterr()
+    assert captured.out == "('пустой ввод', 'некорректный ввод данных', '**8912')\n"

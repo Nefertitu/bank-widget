@@ -4,8 +4,9 @@ from typing import Any
 from decorators import my_function
 from src.external_api import data_for_test_rub, get_conversion_apilayer, get_random_number
 from src.generators import card_number_generator, filter_by_currency, transactions_descriptions
-from src.masks import main_account_1, main_account_2, main_card_1, main_card_2
+from src.masks import main_account_1, main_card_1
 from src.processing import filter_by_state, sort_by_date
+from src.read_transactions import get_read_csv, get_read_excel
 from src.utils import get_read_file, main_read_1, main_read_2, main_read_3
 from src.widget import get_data, mask_account_card
 
@@ -126,7 +127,7 @@ def path(dir_name: str, file_name: str) -> str:
     return path_to_file
 
 
-def main() -> int | str | list[dict[Any, Any]] | Any:
+def main() -> Any:
     """
     Объединяет действия других функций:
     - чтение JSON-файла с транзакциями;
@@ -144,7 +145,7 @@ def main() -> int | str | list[dict[Any, Any]] | Any:
     return result_transactions
 
 
-def main_rub() -> str | list[dict[Any, Any]] | Any:
+def main_rub() -> Any:
     """
     Объединяет действия других функций:
     - получение данных из файла с транзакциями, проведенными в рублях;
@@ -170,14 +171,18 @@ if __name__ == "__main__":
 
     print(main_card_1())
     print()
-    print(main_card_2())
-    print()
 
     print(main_account_1())
-    print()
-    print(main_account_2())
     print()
 
     print(main_read_1())
     print(main_read_2())
     print(main_read_3())
+    print()
+
+    print(get_read_csv("./transactions.csv"))
+    print()
+
+    data_transactions = get_read_excel("./transactions_excel.xlsx")
+    for dict in data_transactions:
+        print(dict)
