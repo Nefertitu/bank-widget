@@ -1,13 +1,11 @@
-import os
-from typing import Any
-
 from decorators import my_function
-from src.external_api import data_for_test_rub, get_conversion_apilayer, get_random_number
+from src.external_api import main_rub
 from src.generators import card_number_generator, filter_by_currency, transactions_descriptions
 from src.masks import main_account_1, main_card_1
 from src.processing import filter_by_state, sort_by_date
 from src.read_transactions import get_read_csv, get_read_excel
-from src.utils import get_read_file, main_read_1, main_read_2, main_read_3
+from src.serch_transactions import get_search_transactions
+from src.utils import main_read_1, main_read_2, main_read_3, get_read_file
 from src.widget import get_data, mask_account_card
 
 if __name__ == "__main__":
@@ -116,55 +114,8 @@ if __name__ == "__main__":
     print()
 
 
-def path(dir_name: str, file_name: str) -> str:
-    """
-    Возвращает путь к файлу `operations.json`
-    :return:
-    """
-
-    path_to_file = os.path.join(os.getcwd(), dir_name, file_name)
-
-    return path_to_file
-
-
-def main() -> Any:
-    """
-    Объединяет действия других функций:
-    - чтение JSON-файла с транзакциями;
-    - рандомный выбор словаря с данными о транзакциях;
-    - возврат суммы транзакции из выбранного словаря в рублях;
-    - обращение к внешнему API для получения текущего курса валют и конвертации суммы операции
-    в рубли, если транзакция была выполнена в другой валюте
-    :return:
-    """
-    path_to_file = path("data", "operations.json")
-    data_transactions = get_read_file(path_to_file)
-    random_number = get_random_number(data_transactions)
-    result_transactions = get_conversion_apilayer(random_number, data_transactions)
-
-    return result_transactions
-
-
-def main_rub() -> Any:
-    """
-    Объединяет действия других функций:
-    - получение данных из файла с транзакциями, проведенными в рублях;
-    - рандомный выбор словаря с данными о транзакциях;
-    - возврат суммы транзакции из выбранного словаря
-    :return:
-    """
-
-    transactions_rub = data_for_test_rub()
-    random_number = get_random_number(transactions_rub)
-    result_transactions = get_conversion_apilayer(random_number, transactions_rub)
-
-    return result_transactions
-
-
-if __name__ == "__main__":
-
-    print(main())
-    print()
+    # print(main_api())
+    # print()
 
     print(main_rub())
     print()
@@ -186,3 +137,69 @@ if __name__ == "__main__":
     data_transactions = get_read_excel("./transactions_excel.xlsx")
     for dict in data_transactions:
         print(dict)
+
+
+def get_file():
+    answer_file = input()
+    if answer_file == "1":
+        print("Для обработки выбран JSON-файл.")
+        return get_read_file('./data/operations.json')
+    if answer_file == "2":
+        print("Для обработки выбран CSV-файл.")
+        return get_read_csv("./transactions.csv")
+    if answer_file == "3":
+        print("Для обработки выбран XLSX-файл.")
+        return get_read_excel("./transactions_excel.xlsx")
+    else:
+        return "Не выбран ни один из вариантов"
+
+
+def get_sort_order_by_date(answer_sort_date):
+    if answer_sort_date.lower() == "да":
+        return False
+    return True
+
+def main():
+    print("Привет! Добро пожаловать в программу работы с банковскими транзакциями.\n")
+    print("""Выберите необходимый пункт меню:\n
+        1. Получить информацию о транзакциях из JSON-файла\n
+        2. Получить информацию о транзакциях из CSV-файла\n
+        3. Получить информацию о транзакциях из XLSX-файла"\n
+        """)
+    transaction_file = get_file()
+
+    print("Введите статус, по которому необходимо выполнить фильтрацию.")
+    print("Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING.\n")
+    answer_status = input()
+    transactions_sort_status = filter_by_state(transaction_file, answer_status)
+    print(f"Операции отфильтрованы по статусу '{answer_status}'.\n")
+
+    print("Отсортировать операции по дате? Да/Нет\n")
+    answer_sort_date = input()
+
+    if answer_sort_date.lower() == "да":
+    print("Отсортировать по возрастанию или по убыванию?\n")
+    answer_sort_order = input()
+    if answer_sort_order.lower() == "по возрастанию":
+        transactions_sort_by_date = sort_by_date(transactions_sort_status, sort_order=False)
+    if answer_sort_date.lower() == "по убыванию":
+        transactions_sort_by_date = sort_by_date(transactions_sort_status)
+    if answer_sort_date.lower() == "нет":
+        transactions_sort_by_date = transactions_sort_status
+
+    print("Выводить только рублевые транзакции? Да/Нет\n")
+    answer_currency = input()
+    if answer_currency.lower() == "да":
+        transactions_filtered_currency = filter_by_currency(transactions_sort_by_date, "RUB")
+    if answer_currency.lower() == "нет":
+        transactions_filtered_currency = transactions_sort_by_date
+
+    print("Отфильтровать список транзакций по определенному слову в описании? Да/Нет\n")
+    answer_description = input()
+    if answer_description.lower() == "да":
+        transactions_filter_descriptions = transactions_descriptions(transactions_filtered_currency)
+    if answer_description.lower() == "нет":
+        transactions_filter_descriptions = transactions_filtered_currency
+
+    print("Распечатываю итоговый список транзакций...")
+

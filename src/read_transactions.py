@@ -1,8 +1,10 @@
+import json
+
 import pandas as pd
 from pandas import DataFrame
 
 
-def get_read_csv(path_to_file: str) -> DataFrame | str:
+def get_read_csv(path_to_file: str) -> str | list[dict]:
     """
     Считывание данных о финансовых операциях их CSV-файла
     :param path_to_file:
@@ -17,7 +19,8 @@ def get_read_csv(path_to_file: str) -> DataFrame | str:
         return f"Error: {type(exc_info).__name__} - {str(exc_info)}"
 
     else:
-        return data_transactions.head().to_json(orient="records", indent=4, lines=True, force_ascii=False)
+        # return data_transactions.head().to_json(orient="records", indent=4, lines=True, force_ascii=False)
+        return data_transactions.to_dict(orient="records")
 
 
 def get_read_excel(path_to_file: str) -> str | list[dict]:
@@ -36,3 +39,15 @@ def get_read_excel(path_to_file: str) -> str | list[dict]:
 
     else:
         return data_transactions.head().to_dict(orient="records")
+        # return data_transactions.head().to_json(orient='records', indent=4, lines=True, force_ascii=False)
+
+
+# trans = get_read_csv("../transactions.csv")
+# print(trans)
+# print(type(trans))
+# print()
+#
+#
+trans_1 = get_read_excel("../transactions_excel.xlsx")
+print(trans_1)
+# print(type(trans_1))

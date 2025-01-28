@@ -10,17 +10,23 @@ def filter_by_currency(list_dicts: list[dict[str, Any]], currency_type: str) -> 
     :return:
     """
 
-    filter_transactions = list(filter(lambda x: x["operationAmount"]["currency"]["code"] == currency_type, list_dicts))
+    for dict in list_dicts:
+        for _ in dict.keys():
+            if 'operationAmount' in dict.keys():
+                filter_transactions = list(
+                    filter(lambda x: x["operationAmount"]["currency"]["code"] == currency_type, list_dicts))
+            else:
+                filter_transactions = list(filter(lambda x: x["currency_code"] == currency_type, list_dicts))
 
-    if list_dicts == []:
-        yield "пустой список"
-    else:
-
+    if list_dicts != []:
         for item in filter_transactions:
             if filter_transactions is not None:
                 yield item
         if filter_transactions == []:
             yield f"нет операций в валюте '{currency_type}'"
+
+    else:
+        yield "пустой список"
 
     return ""
 
