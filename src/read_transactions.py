@@ -38,7 +38,7 @@ def get_read_excel(path_to_file: str) -> str | list[dict]:
         return f"Error: {type(exc_info)} - {str(exc_info)}"
 
     else:
-        return data_transactions.head().to_dict(orient="records")
+        return data_transactions.to_dict(orient="records")
         # return data_transactions.head().to_json(orient='records', indent=4, lines=True, force_ascii=False)
 
 
@@ -48,6 +48,6 @@ def get_read_excel(path_to_file: str) -> str | list[dict]:
 # print()
 #
 #
-trans_1 = get_read_excel("../transactions_excel.xlsx")
-print(trans_1)
+# trans_1 = get_read_excel("../transactions_excel.xlsx")
+# print(trans_1)
 # print(type(trans_1))

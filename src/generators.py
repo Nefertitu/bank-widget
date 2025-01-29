@@ -22,8 +22,8 @@ def filter_by_currency(list_dicts: list[dict[str, Any]], currency_type: str) -> 
         for item in filter_transactions:
             if filter_transactions is not None:
                 yield item
-        if filter_transactions == []:
-            yield f"нет операций в валюте '{currency_type}'"
+            if filter_transactions is None:
+                yield f"нет операций в валюте '{currency_type}'"
 
     else:
         yield "пустой список"
