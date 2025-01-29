@@ -104,8 +104,8 @@ def test_transaction_descriptions(list_dicts_with_transactions: list[dict[str, A
 
 def test_transaction_descriptions_zero(list_dict_zero_for_test: list) -> None:
     """
-    Тест, проверяющий, что функция `transaction_descriptions` возвращает корректные
-    описания для каждой транзакции
+    Тест, проверяющий, что функция `transaction_descriptions` не вызывает ошибку,
+    если получен пустой список
     :param list_dict_zero_for_test:
     :return:
     """
@@ -119,7 +119,7 @@ def test_transaction_descriptions_zero(list_dict_zero_for_test: list) -> None:
 def test_transaction_descriptions_incomplete_data(list_dict_incomplete_data_for_test: list) -> None:
     """
     Тест, проверяющий, что функция `transaction_descriptions` корректно обрабатывает
-    пустой список
+    список транзакций, в котором отсутствуют операции в заданной валюте
     :param list_dict_incomplete_data_for_test:
     :return:
     """

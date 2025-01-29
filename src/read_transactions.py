@@ -1,7 +1,4 @@
-import json
-
 import pandas as pd
-from pandas import DataFrame
 
 
 def get_read_csv(path_to_file: str) -> str | list[dict]:

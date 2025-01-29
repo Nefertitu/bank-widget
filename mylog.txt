@@ -1,1 +1,4 @@
-my_function error: ZeroDivisionError: Cannot divide by zero. Inputs: (1, 0), {}
+my_function with args: (1, 5) and kwargs: {}. 
+Result = 0.2.
+Function call time: 2025-01-30 02:44:45.276166.
+Time execution: 0.0000036

@@ -46,8 +46,7 @@ def mask_account_card(card_or_account_number: SupportsIndex | slice) -> str:
     #   return f"TypeError: {e}"
 
 
-def get_data(formatted_date: Any | str) -> str | None:
-
+def get_date(formatted_date: Any | str) -> str | None:
     """
     Функция преобразует полученную строку с датой в дату формата 'ДД.ММ.ГГГГ'
     :param formatted_date:
@@ -58,14 +57,17 @@ def get_data(formatted_date: Any | str) -> str | None:
 
         if received_date is not None:
             result = f"{received_date.group(3)}.{received_date.group(2)}.{received_date.group(1)}"
+            return result
         else:
-            result = ""
-        return result
+            return "пустой ввод"
 
-    return "пустой ввод"
+
+
 
 
 # trans = get_read_file('../data/operations.json')
 # for dict in trans:
 #     date = dict["date"]
-#     print(get_data(date))
+#     print(get_date(date))
+# date = ""
+# print(get_date(date))

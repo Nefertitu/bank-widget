@@ -1,11 +1,8 @@
 from collections import Counter
 from typing import Any
 
-from src.utils import get_read_file
 
-
-
-def get_count_transactions(data_transactions: list[dict], transactions_categories: list) -> Counter[Any]:
+def get_count_transactions(data_transactions: list[dict], transactions_categories: list) -> Counter[Any] | str:
     """
     Подсчет количества банковских операций определенного типа
     :param filter_transactions:
@@ -17,7 +14,6 @@ def get_count_transactions(data_transactions: list[dict], transactions_categorie
         if dict == {}:
             continue
         else:
-            print(dict["description"])
             if dict["description"] is not None and (dict["description"]).lower() in transactions_categories:
                 descriptions.append(dict["description"])
             else:
@@ -27,8 +23,8 @@ def get_count_transactions(data_transactions: list[dict], transactions_categorie
     return counted
 
 
-trans = get_read_file('../data/operations.json')
-print(trans)
-print(len(trans))
-trans_categories = ["перевод со счета на счет", "перевод с карты на карту", "открытие вклада"]
+# trans = get_read_file("../data/operations.json")
+trans = [{"amount": "79931.03", "currency": "RUB", "description": "Открытие вклада"},
+         {"amount": "31957.58", "code": "RUB", "description": "Перевод организации"}]
+trans_categories = ["перевод организации", "открытие вклада"]
 print(get_count_transactions(trans, trans_categories))

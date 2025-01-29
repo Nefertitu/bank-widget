@@ -1,37 +1,44 @@
 from src.generators import filter_by_currency
 from src.processing import filter_by_state, sort_by_date
 from src.read_transactions import get_read_csv, get_read_excel
-from src.serch_transactions import get_search_transactions
+from src.search_transactions import get_search_transactions
 from src.utils import get_read_file
-from src.widget import get_data, mask_account_card
+from src.widget import get_date, mask_account_card
 
 
 def main():
     print("\nПривет! Добро пожаловать в программу работы с банковскими транзакциями.\n")
 
     transactions = []
-    answer = ["1", "2","3"]
-    answer_file = input(("""Выберите необходимый пункт меню:
+    answer = ["1", "2", "3"]
+    answer_file = input(
+        (
+            """Выберите необходимый пункт меню:
             1. Получить информацию о транзакциях из JSON-файла
             2. Получить информацию о транзакциях из CSV-файла
             3. Получить информацию о транзакциях из XLSX-файла
-: """))
+: """
+        )
+    )
     while answer_file not in answer:
-        answer_file = input(("""Выберите один из пунктов меню ниже:
+        answer_file = input(
+            (
+                """Выберите один из пунктов меню ниже:
                        1. Получить информацию о транзакциях из JSON-файла
                        2. Получить информацию о транзакциях из CSV-файла
                        3. Получить информацию о транзакциях из XLSX-файла
-: """))
+: """
+            )
+        )
     if answer_file == "1":
         print("Для обработки выбран JSON-файл.")
-        transactions = get_read_file('./data/operations.json')
+        transactions = get_read_file("./data/operations.json")
     if answer_file == "2":
         print("Для обработки выбран CSV-файл.")
         transactions = get_read_csv("./transactions.csv")
     if answer_file == "3":
         print("Для обработки выбран XLSX-файл.")
         transactions = get_read_excel("./transactions_excel.xlsx")
-
 
     print("\nВведите статус, по которому необходимо выполнить фильтрацию.")
     if answer_file == "2" or answer_file == "3":
@@ -92,27 +99,46 @@ def main():
         print("\nНаберите 'Да' или 'Нет', чтобы отфильтровать список транзакций.")
         answer_description = (input()).lower()
     if answer_description.lower() == "да":
-        print("""\nВведите слово или фразу для поиска в описании транзакций (перевод с карты
-на карту, перевод со счета на счет, открытие вклада, перевод организации.)""")
-        answer = ["перевод с карты", "перевод с карты на карту", "перевод со счета", "перевод со счета на счет", "перевод организации", "открытие вклада", "перевод", "со счета", "на счет", "счет", "на карту", "карту", "открытие", "вклада", "организации"]
-        answer_search_string = (input()).lower()
-        transactions = get_search_transactions(transactions, answer_search_string)
+        print(
+            """\nВведите слово или фразу для поиска в описании транзакций (перевод с карты
+на карту, перевод со счета на счет, открытие вклада, перевод организации.)"""
+        )
+        answer = [
+            "перевод с карты",
+            "перевод с карты на карту",
+            "перевод со счета",
+            "перевод со счета на счет",
+            "перевод организации",
+            "открытие вклада",
+            "перевод",
+            "со счета",
+            "на счет",
+            "счет",
+            "на карту",
+            "карту",
+            "открытие",
+            "вклада",
+            "организации",
+        ]
+        answer_serch_string = (input()).lower()
+        transactions = get_search_transactions(transactions, answer_serch_string)
 
         x = 0
-        while answer_search_string not in answer  and x < 3:
-            print("""\nВведите слово или фразу для поиска в описании транзакций 
-из приведенного выше списка.""")
-            answer_search_string = (input()).lower()
+        while answer_serch_string not in answer and x < 3:
+            print(
+                """\nВведите слово или фразу для поиска в описании транзакций
+из приведенного выше списка."""
+            )
+            answer_serch_string = (input()).lower()
             x += 1
-            if x == 3 and answer_search_string not in answer:
+            if x == 3 and answer_serch_string not in answer:
                 print("Не удалось выполнить фильтрацию по описанию.")
 
-            if x < 3 and answer_search_string in answer:
-                transactions = get_search_transactions(transactions, answer_search_string)
+            if x < 3 and answer_serch_string in answer:
+                transactions = get_search_transactions(transactions, answer_serch_string)
                 print(transactions)
             else:
-                transactions = get_search_transactions(transactions, answer_search_string)
-
+                transactions = get_search_transactions(transactions, answer_serch_string)
 
     if answer_description.lower() == "нет":
         transactions = transactions
@@ -125,24 +151,30 @@ def main():
             if transaction.get("date") is None:
                 continue
             else:
-                print(f'{get_data(str(transaction["date"]))} {transaction["description"]}')
+                print(f'{get_date(str(transaction["date"]))} {transaction["description"]}')
                 if transaction["description"] == "Открытие вклада":
                     print(f'{mask_account_card(transaction["to"])}')
                     if transaction.get("operationAmount") is None:
                         print(f'Сумма: {transaction["amount"]} {transaction["currency_code"]}\n')
                     else:
-                        print(f'Сумма: {transaction["operationAmount"].get("amount")} {transaction["operationAmount"].get(["currency"]).get("code")}\n')
+                        print(
+                            f"""Сумма: {transaction["operationAmount"].get("amount")}
+{transaction["operationAmount"].get(["currency"]).get("code")}\n"""
+                        )
                 else:
                     print(f"{mask_account_card(transaction["from"])} -> {mask_account_card(transaction["to"])}")
                     if transaction.get("operationAmount") is None:
                         print(f"Сумма: {transaction["amount"]} {transaction["currency_code"]}\n")
                     else:
-                        print(f"Сумма: {transaction["operationAmount"].get("amount")} {transaction["operationAmount"].get(["currency"]).get("code")}\n")
+                        print(
+                            f"""Сумма: {transaction["operationAmount"].get("amount")}
+{transaction["operationAmount"].get(["currency"]).get("code")}\n"""
+                        )
 
     if transactions is None:
         return "Не найдено ни одной транзакции, подходящей под ваши условия фильтрации"
     return ""
 
+
 if __name__ == "__main__":
     print(main())
-

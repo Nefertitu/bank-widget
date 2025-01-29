@@ -11,6 +11,19 @@ load_dotenv()
 apilayer_key = os.getenv("API_KEY")
 
 
+def get_random_number(transactions: list[dict[Any, Any]]) -> int | str:
+    """
+    Возвращает рандомный номер или '1', либо сообщение "Список не должен быть пустым"
+    :param transactions:
+    :return:
+    """
+    if len(transactions) > 1:
+        return random.randint(0, len(transactions) - 1)
+    elif len(transactions) == 1:
+        return 1
+    return "Список не должен быть пустым"
+
+
 def get_conversion_apilayer(random_number: str | int, data_transactions: Any | list[dict[str, Any]]) -> Any:
     """
     Принимает на вход список транзакций, возвращает сумму транзакции, выбранной
@@ -21,8 +34,9 @@ def get_conversion_apilayer(random_number: str | int, data_transactions: Any | l
     :param data_transactions:
     :return:
     """
-    for _ in data_transactions:
-        if random_number is int:
+    if type(random_number) is int:
+        for _ in data_transactions:
+
             random_transaction = data_transactions[random_number]
             try:
                 currency_code = random_transaction["operationAmount"]["currency"]["code"]
@@ -73,20 +87,9 @@ def get_conversion_apilayer(random_number: str | int, data_transactions: Any | l
 
                         return response.json()
 
-        return "Неверный код валюты"
+                return "Неверный код валюты"
 
-
-def get_random_number(transactions: list[dict[Any, Any]]) -> int | str:
-    """
-    Возвращает рандомный номер или '1', либо сообщение "Список не должен быть пустым"
-    :param transactions:
-    :return:
-    """
-    if len(transactions) > 1:
-        return random.randint(0, len(transactions) - 1)
-    elif len(transactions) == 1:
-        return 1
-    return "Список не должен быть пустым"
+        return "Список не должен быть пустым"
 
 
 def data_for_test_rub() -> list[dict[Any, Any]]:
@@ -169,3 +172,6 @@ def main_rub() -> Any:
     result_transactions = get_conversion_apilayer(random_number, transactions_rub)
 
     return result_transactions
+
+
+# print(main_rub())

@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Hashable
 
 import pandas as pd
 import pytest
@@ -286,7 +286,7 @@ def data_for_test_csv() -> str:
 
 
 @pytest.fixture
-def data_for_test_csv_result() -> str | None:
+def data_for_test_csv_result() -> list[dict[Hashable, Any]]:
     """Возвращает словари JSON с данными транзакций"""
     sample_data_1 = {
         "id": [650703, 3598919, 593027, 366176, 5380041],
@@ -300,4 +300,23 @@ def data_for_test_csv_result() -> str | None:
         ],
     }
     df = pd.DataFrame(sample_data_1)
-    return df.to_json(orient="records", indent=4, lines=True, force_ascii=False)
+    return df.to_dict(orient="records")
+
+
+
+@pytest.fixture
+def data_for_search_2() -> list[dict]:
+    """Возвращает словарь с данными транзакций"""
+    return [{"date": "2018-07-11T02:26:18.671407", "operationAmount": {"amount": "79931.03", "currency": {"code": "RUB"}}, "description": "Открытие вклада",},
+            {"date": "2018-04-04T17:33:34.701093", "operationAmount": {"amount": "40701.91", "currency": {"code": "USD"}}, "description": "Перевод организации",},]
+
+@pytest.fixture
+def data_from_search_1() -> list[dict]:
+    """Возвращает словарь с данными транзакций, соответствующими запросу"""
+    return [{'id': 441945886, 'operationAmount': {'amount': '31957.58', 'currency': {'code': 'RUB'}}, 'description': 'Перевод организации'}]
+
+
+@pytest.fixture
+def data_from_search_2() -> list[dict]:
+    """Возвращает словарь с данными транзакций, соответствующими запросу"""
+    return [{'date': '2018-07-11T02:26:18.671407', 'operationAmount': {'amount': '79931.03', 'currency': {'code': 'RUB'}}, 'description': 'Открытие вклада'}]

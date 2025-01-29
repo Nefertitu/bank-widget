@@ -1,58 +1,66 @@
 from typing import Any, Generator
 
+from src.external_api import data_for_test_rub
 
-def filter_by_currency(list_dicts: list[dict[str, Any]], currency_type: str) -> Any:
+
+def filter_by_currency(list_dictionaries: list[dict[str, Any]], currency_type: str) -> Any:
     """
     Функция принимает список словарей с транзакциями и возвращает итератор,
     выдающий поочередно транзакции, соответствующие заданной валюте
-    :param list_dicts:
+    :param list_dictionaries:
     :param currency_type:
     :return:
     """
 
-    for dict in list_dicts:
-        for _ in dict.keys():
-            if 'operationAmount' in dict.keys():
-                filter_transactions = list(
-                    filter(lambda x: x["operationAmount"]["currency"]["code"] == currency_type, list_dicts))
-            else:
-                filter_transactions = list(filter(lambda x: x["currency_code"] == currency_type, list_dicts))
+    if list_dictionaries != []:
+        for dictionary in list_dictionaries:
 
-    if list_dicts != []:
-        for item in filter_transactions:
-            if filter_transactions is not None:
+            if dictionary.get("operationAmount"):
+                filter_transactions = list(filter(lambda x: x["operationAmount"]["currency"]["code"] == currency_type, list_dictionaries))
+            else:
+                filter_transactions = list(filter(lambda x: x["currency_code"] == currency_type, list_dictionaries))
+
+
+        if filter_transactions != []:
+            for item in filter_transactions:
                 yield item
-            if filter_transactions is None:
-                yield f"нет операций в валюте '{currency_type}'"
+        if filter_transactions == []:
+            yield f"нет операций в валюте '{currency_type}'"
 
     else:
         yield "пустой список"
 
-    return ""
+list_dict = []
+result_filter = filter_by_currency(data_for_test_rub(), "EUR")
+# while True:
+#     try:
+#         print(next(result_filter))
+#     except StopIteration:
+#         print("генератор исчерпан")
+#         break
 
-
+print(next(result_filter))
 # print(next(result_filter))
 # print(next(result_filter))
 # print(next(result_filter))
-# print(next(result_filter))
+
+print("******************************")
 
 
-def transactions_descriptions(list_dicts: list[dict[str, Any]]) -> Any:
+def transactions_descriptions(list_dictionaries: list[dict[str, Any]]) -> Any:
     """
     Функция принимает список словарей с транзакциями и возвращает итератор,
     выдающий описание каждой операции по очереди
-    :param list_dicts:
+    :param list_dictionaries:
     """
 
-    list_descriptions = []
-
-    if list_dicts == []:
+    if list_dictionaries == []:
         yield "пустой список"
 
     else:
-        list_descriptions = list(dict["description"] for dict in list_dicts if dict.get("description") is not None)
+        list_descriptions = list(dictionary["description"] for dictionary in list_dictionaries if dictionary.get("description") is not None)
 
-        if list_descriptions != []:
+        if list_descriptions:
             for item in list_descriptions:
                 yield item
 
@@ -62,12 +70,15 @@ def transactions_descriptions(list_dicts: list[dict[str, Any]]) -> Any:
     return ""
 
 
-# while True:
-#     try:
-#         print(next(descriptions))
-#     except StopIteration:
-#         print("генератор исчерпан")
-#         break
+descriptions = transactions_descriptions(list_dict)
+while True:
+    try:
+        print(next(descriptions))
+    except StopIteration:
+        print("генератор исчерпан")
+        break
+
+print("******************************")
 
 
 def card_number_generator(start: int = 1, stop: int = 1) -> Generator[list[str]] | str:
@@ -106,3 +117,12 @@ def card_number_generator(start: int = 1, stop: int = 1) -> Generator[list[str]]
         yield "Ошибка: некорректный ввод"
 
     return ""
+
+
+card_number = card_number_generator(1, 5)
+while True:
+    try:
+        print(next(card_number))
+    except StopIteration:
+        print("генератор исчерпан")
+        break

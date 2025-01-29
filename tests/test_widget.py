@@ -2,7 +2,7 @@ from typing import Any
 
 import pytest
 
-from src.widget import get_data, mask_account_card
+from src.widget import get_date, mask_account_card
 
 
 # декоратор для запуска тестирования с различными входными данными
@@ -74,24 +74,24 @@ def test_mask_account_card_error(account_card_error_number_for_test: str) -> Non
         print(exc_info)
 
 
-def test_get_data(data_for_test: str) -> None:
+def test_get_date(data_for_test: str) -> None:
     """
     Тестирование правильности преобразования даты
     :param data_for_test:
     :return:
     """
 
-    assert get_data(data_for_test) == "11.03.2024"
+    assert get_date(data_for_test) == "11.03.2024"
 
 
-def test_get_data_zero() -> None:
+def test_get_date_zero() -> None:
     """
     Тестирование работы функции на корректность обработки пустого ввода
     :param:
     :return:
     """
 
-    assert get_data("") == "пустой ввод"
+    assert get_date("") == "пустой ввод"
 
 
 @pytest.mark.parametrize(
@@ -103,5 +103,5 @@ def test_get_data_zero() -> None:
         ("2024|03|11", "11.03.2024"),
     ],
 )
-def test_get_data_incorrect_input(value: str, expected: list[dict[str, Any]]) -> None:
-    assert get_data(value) == expected
+def test_get_date_incorrect_input(value: str, expected: list[dict[str, Any]]) -> None:
+    assert get_date(value) == expected
