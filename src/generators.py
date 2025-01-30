@@ -15,11 +15,12 @@ def filter_by_currency(list_dictionaries: list[dict[str, Any]], currency_type: s
     if list_dictionaries != []:
         for dictionary in list_dictionaries:
 
-            if dictionary.get("operationAmount"):
-                filter_transactions = list(filter(lambda x: x["operationAmount"]["currency"]["code"] == currency_type, list_dictionaries))
+            if dictionary.get("operationAmount") is not None:
+                filter_transactions = list(
+                    filter(lambda x: x["operationAmount"]["currency"]["code"] == currency_type, list_dictionaries)
+                )
             else:
                 filter_transactions = list(filter(lambda x: x["currency_code"] == currency_type, list_dictionaries))
-
 
         if filter_transactions != []:
             for item in filter_transactions:
@@ -30,7 +31,8 @@ def filter_by_currency(list_dictionaries: list[dict[str, Any]], currency_type: s
     else:
         yield "пустой список"
 
-list_dict = []
+
+list_dict: list[dict] = []
 result_filter = filter_by_currency(data_for_test_rub(), "EUR")
 # while True:
 #     try:
@@ -39,12 +41,12 @@ result_filter = filter_by_currency(data_for_test_rub(), "EUR")
 #         print("генератор исчерпан")
 #         break
 
-print(next(result_filter))
+# print(next(result_filter))
 # print(next(result_filter))
 # print(next(result_filter))
 # print(next(result_filter))
 
-print("******************************")
+# print("******************************")
 
 
 def transactions_descriptions(list_dictionaries: list[dict[str, Any]]) -> Any:
@@ -58,7 +60,9 @@ def transactions_descriptions(list_dictionaries: list[dict[str, Any]]) -> Any:
         yield "пустой список"
 
     else:
-        list_descriptions = list(dictionary["description"] for dictionary in list_dictionaries if dictionary.get("description") is not None)
+        list_descriptions = list(
+            dictionary["description"] for dictionary in list_dictionaries if dictionary.get("description") is not None
+        )
 
         if list_descriptions:
             for item in list_descriptions:
@@ -70,15 +74,15 @@ def transactions_descriptions(list_dictionaries: list[dict[str, Any]]) -> Any:
     return ""
 
 
-descriptions = transactions_descriptions(list_dict)
-while True:
-    try:
-        print(next(descriptions))
-    except StopIteration:
-        print("генератор исчерпан")
-        break
-
-print("******************************")
+# descriptions = transactions_descriptions(list_dict)
+# while True:
+#     try:
+#         print(next(descriptions))
+#     except StopIteration:
+#         print("генератор исчерпан")
+#         break
+#
+# print("******************************")
 
 
 def card_number_generator(start: int = 1, stop: int = 1) -> Generator[list[str]] | str:
@@ -119,10 +123,10 @@ def card_number_generator(start: int = 1, stop: int = 1) -> Generator[list[str]]
     return ""
 
 
-card_number = card_number_generator(1, 5)
-while True:
-    try:
-        print(next(card_number))
-    except StopIteration:
-        print("генератор исчерпан")
-        break
+# card_number = card_number_generator(1, 5)
+# while True:
+#     try:
+#         print(next(card_number))
+#     except StopIteration:
+#         print("генератор исчерпан")
+#         break

@@ -45,6 +45,9 @@
 * `src\read_transactions.py` - модуль с функциями чтения CSV- и XLSX-файлов:
 - `get_read_csv()`
 - `get_read_excel()`
+- `src\search_transaction.py` - модуль с функцией поиска банковских операций по заданному слову
+- `src\count_transactions.py` - модуль с функцией подсчета банковских операций по 
+заданным категориям
 * `main.py` - модуль, реализующий логику проекта
 * `tests\conftest.py` - модуль с фикстурами
 * `tests\test_masks.py` - модуль с тестами для `masks.py`
@@ -55,6 +58,8 @@
 * `tests\test_external_api.py` - модуль с тестами для `external_api.py`
 * `tests\test_utils.py` - модуль с тестами для `utils.py`
 * `tests\test_read_trabsactions.py` - модуль с тестами для `transactions.py`
+* `tests\test_search_transactions.py` - модуль с тестами для `search_transactions.py`
+* `tests\test_count_transactions.py` - модуль с тестами для `count_transactions.py`
 * `htmlcov\index.html` - отчет о покрытии тестами
 * `.env.example` - шаблон для создания `.env` файла с переменными окружения(API - ключ)
 
@@ -110,7 +115,11 @@ poetry install
 `https://api.apilayer.com/`;
 + `get_read_csv()` - считывает данные о финансовых операциях их CSV-файла и преобразует 
 их в JSON-формат;
-+ `get_read_excel()` - считывает данные о финансовых операциях их XLSX-файла и преобразует 
++ `get_read_excel()` - считывает данные о финансовых операциях их XLSX-файла и преобразует
++ `get_search_transactions` - возвращает список словаре, у которых в описании есть
+заданная строка;
++ `get_count_transactions` - возвращает словарь с количеством банковских операций 
+по категориям;
 их в список словарей; 
 + `main()` - Объединяет действия других функций:
     - чтение JSON-файла с транзакциями;
@@ -142,49 +151,58 @@ poetry run pytest --cov
 ```
 
 ```
-============================== test session starts ===========================
+====================================== test session starts ===========
 platform win32 -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
 rootdir: C:\Users\Oper\PycharmProjects\pythonProject\bank_widget
 configfile: pyproject.toml
 plugins: cov-6.0.0
-collected 82 items                                                                                                                   
+collected 90 items                                                                                                           
 
-tests\test_decorators.py ....                            [  4%]
-tests\test_external_api.py ..........                    [ 17%]
-tests\test_generators.py ..............                  [ 34%]
-tests\test_masks.py ..............                       [ 51%]
-tests\test_processing.py ........                        [ 60%]
-tests\test_read_transactions.py ......                   [ 68%]
-tests\test_utils.py .........                            [ 79%]
-tests\test_widget.py .................                   [100%]
+tests\test_count_transactions.py ...                        [  3%]
+tests\test_decorators.py ....                               [  7%]
+tests\test_external_api.py ..........                       [ 18%]
+tests\test_generators.py ..............                     [ 34%]
+tests\test_main.py .                                        [ 35%]
+tests\test_masks.py ..............                          [ 51%]
+tests\test_processing.py ........                           [ 60%]
+tests\test_read_transactions.py ......                      [ 66%]
+tests\test_search_transactions.py ....                      [ 71%]
+tests\test_utils.py .........                               [ 81%]
+tests\test_widget.py .................                      [100%]
 
 ---------- coverage: platform win32, python 3.13.1-final-0 -----------
-Name                              Stmts   Miss  Cover
------------------------------------------------------
-decorators.py                        37      4    89%
-src\__init__.py                       0      0   100%
-src\external_api.py                  45      5    89%
-src\generators.py                    38      2    95%
-src\masks.py                         57      1    98%
-src\processing.py                    23      0   100%
-src\read_transactions.py             18      2    89%
-src\utils.py                         44      0   100%
-src\widget.py                        33      1    97%
-tests\__init__.py                     0      0   100%
-tests\conftest.py                    68      3    96%
-tests\test_decorators.py             15      0   100%
-tests\test_external_api.py           55      0   100%
-tests\test_generators.py             54      0   100%
-tests\test_masks.py                  25      0   100%
-tests\test_processing.py             16      0   100%
-tests\test_read_transactions.py      34      0   100%
-tests\test_utils.py                  46      0   100%
-tests\test_widget.py                 23      2    91%
------------------------------------------------------
-TOTAL                               631     20    97%
+Name                                Stmts   Miss  Cover
+-------------------------------------------------------
+decorators.py                          37      4    89%
+main.py                               107     39    64%
+src\__init__.py                         0      0   100%
+src\count_transactions.py              12      2    83%
+src\external_api.py                    62     16    74%
+src\generators.py                      42      2    95%
+src\masks.py                           57      1    98%
+src\processing.py                      30      1    97%
+src\read_transactions.py               17      2    88%
+src\search_transactions.py             14      1    93%
+src\utils.py                           44      0   100%
+src\widget.py                          33      0   100%
+tests\__init__.py                       0      0   100%
+tests\conftest.py                      68      3    96%
+tests\test_count_transactions.py        7      0   100%
+tests\test_decorators.py               15      0   100%
+tests\test_external_api.py             55      0   100%
+tests\test_generators.py               54      0   100%
+tests\test_main.py                     11      0   100%
+tests\test_masks.py                    25      0   100%
+tests\test_processing.py               16      0   100%
+tests\test_read_transactions.py        34      0   100%
+tests\test_search_transactions.py       5      0   100%
+tests\test_utils.py                    46      0   100%
+tests\test_widget.py                   23      2    91%
+-------------------------------------------------------
+TOTAL                                 814     73    91%
 
 
-======================================================== 82 passed in 1.24s ===
+======================================= 90 passed in 1.25s ===========
 
 - в папке `htmlcov\` проекта содержится файл `index.html` с отчетом о покрытии тестами
 - в рамках тестирования проекта использованы фикстуры, параметризация тестов,
@@ -451,7 +469,36 @@ Time execution: 0.0000019
 ...
 ```
 
+14. Пример работы get_search_transactions():
+Входные данные:
+```
+[{"amount": "79931.03", "currency": "RUB", "description": "Открытие вклада"},
+{"amount": "31957.58", "code": "RUB", "description": "Перевод организации"},]
 
+```
+Описание для поиска операций - "организации"
+
+Выходные данные:
+```
+[{"amount": "31957.58", "code": "RUB", "description": "Перевод организации"}]"
+```
+
+15. Пример работы get_count_transactions():
+Входные данные:
+```
+[{"amount": "79931.03", "currency": "RUB", "description": "Открытие вклада"},
+{"amount": "31957.58", "code": "RUB", "description": "Перевод организации"},]
+         
+```
+Описание категорий операций для подсчета:
+["открытие вклада", "перевод организации"]
+
+Выходные данные:
+```
+Counter({"Открытие вклада": 1, "Перевод организации": 1})
+```
+  
+          
 ## Документация:
 
 Для получения дополнительной информации по установке проекта обратитесь к [документации](docs/README.md).

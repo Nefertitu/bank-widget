@@ -1,19 +1,17 @@
 import json
 import logging
-import os
 from json import JSONDecodeError
 from typing import Any
 
-
 utils_logger = logging.getLogger("get_read_file")
-file_handler = logging.FileHandler("./logs/utils.log", mode='w', encoding='utf-8')
+file_handler = logging.FileHandler("./logs/utils.log", mode="w", encoding="utf-8")
 file_formatter = logging.Formatter("%(asctime)s - %(filename)s - %(funcName)s - %(levelname)s - %(message)s")
 file_handler.setFormatter(file_formatter)
 utils_logger.addHandler(file_handler)
 utils_logger.setLevel(logging.DEBUG)
 
 
-def get_read_file(path_to_file: str) -> str | list[dict] | Any:
+def get_read_file(path_to_file: str) -> list[dict] | Any:
     """
     Принимает на вход путь до JSON-файла и возвращает список словарей
     с данными о финансовых транзакциях, логирует результаты выполнения функции в файл
@@ -74,5 +72,3 @@ def main_read_3() -> str | list[dict] | Any:
 
 
 # print(get_read_file('../data/operations.json'))
-
-

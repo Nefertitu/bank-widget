@@ -46,26 +46,26 @@ def sort_by_date(list_dictionaries: list[dict[str, Any]], sort_order: bool = Tru
         return "неверный формат даты"
     else:
         if sort_order is True:
-            sorted_dictionaries = sorted(comparsion_dictionaries, key=lambda dictionary: dictionary["date"],
-                                         reverse=True)
+            sorted_dictionaries = sorted(
+                comparsion_dictionaries, key=lambda dictionary: dictionary["date"], reverse=True
+            )
         else:
             sorted_dictionaries = sorted(comparsion_dictionaries, key=lambda dictionary: dictionary["date"])
 
         return sorted_dictionaries
 
 
-
 # list_dict = get_read_file('../data/operations.json')
 # list_dict = get_read_excel('../transactions_excel.xlsx')
 # list_dict = get_read_csv('../transactions.csv')
-list_dict = [
-        {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-        {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
-        {"id": 615064591, "state": "CANCELED", "date": "2018/10/14T0"},
-        {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-    ]
+# list_dict = [
+#         {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
+#         {"id": 594226727, "state": "CANCELED", "date": "2018-09-12T21:27:25.241689"},
+#         {"id": 615064591, "state": "CANCELED", "date": "2018/10/14T0"},
+#         {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
+#     ]
 # print(list_dict)
 # list_dict = transactions_sort_status
-print(sort_by_date(list_dict, sort_order=False))
+# print(sort_by_date(list_dict, sort_order=False))
 
 # print(sort_by_date(list_dict, sort_order=True))

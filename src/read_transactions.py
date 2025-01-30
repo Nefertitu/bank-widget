@@ -43,7 +43,7 @@ def get_read_excel(path_to_file: str) -> str | list[dict]:
 # print(trans)
 # print(type(trans))
 # print()
-#
+
 #
 # trans_1 = get_read_excel("../transactions_excel.xlsx")
 # print(trans_1)

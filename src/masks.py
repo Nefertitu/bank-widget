@@ -1,6 +1,5 @@
 import logging
 
-
 root_logger = logging.getLogger()
 logger = logging.getLogger("masks")
 file_handler = logging.FileHandler("./logs/masks.log", "w", encoding="utf-8")

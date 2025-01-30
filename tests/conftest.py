@@ -301,22 +301,3 @@ def data_for_test_csv_result() -> list[dict[Hashable, Any]]:
     }
     df = pd.DataFrame(sample_data_1)
     return df.to_dict(orient="records")
-
-
-
-@pytest.fixture
-def data_for_search_2() -> list[dict]:
-    """Возвращает словарь с данными транзакций"""
-    return [{"date": "2018-07-11T02:26:18.671407", "operationAmount": {"amount": "79931.03", "currency": {"code": "RUB"}}, "description": "Открытие вклада",},
-            {"date": "2018-04-04T17:33:34.701093", "operationAmount": {"amount": "40701.91", "currency": {"code": "USD"}}, "description": "Перевод организации",},]
-
-@pytest.fixture
-def data_from_search_1() -> list[dict]:
-    """Возвращает словарь с данными транзакций, соответствующими запросу"""
-    return [{'id': 441945886, 'operationAmount': {'amount': '31957.58', 'currency': {'code': 'RUB'}}, 'description': 'Перевод организации'}]
-
-
-@pytest.fixture
-def data_from_search_2() -> list[dict]:
-    """Возвращает словарь с данными транзакций, соответствующими запросу"""
-    return [{'date': '2018-07-11T02:26:18.671407', 'operationAmount': {'amount': '79931.03', 'currency': {'code': 'RUB'}}, 'description': 'Открытие вклада'}]

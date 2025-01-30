@@ -6,10 +6,12 @@ from src.utils import get_read_file
 from src.widget import get_date, mask_account_card
 
 
-def main():
+def main() -> str:
+    """Функция отвечает за основную логику проекта и связывает функциональности
+    проекта между собой"""
     print("\nПривет! Добро пожаловать в программу работы с банковскими транзакциями.\n")
 
-    transactions = []
+    transactions: list[dict] = []
     answer = ["1", "2", "3"]
     answer_file = input(
         (
@@ -35,10 +37,10 @@ def main():
         transactions = get_read_file("./data/operations.json")
     if answer_file == "2":
         print("Для обработки выбран CSV-файл.")
-        transactions = get_read_csv("./transactions.csv")
+        transactions = get_read_csv("./transactions.csv")  # type: ignore
     if answer_file == "3":
         print("Для обработки выбран XLSX-файл.")
-        transactions = get_read_excel("./transactions_excel.xlsx")
+        transactions = get_read_excel("./transactions_excel.xlsx")  # type: ignore
 
     print("\nВведите статус, по которому необходимо выполнить фильтрацию.")
     if answer_file == "2" or answer_file == "3":
@@ -54,7 +56,6 @@ def main():
 
     transactions = filter_by_state(transactions, answer_status)
     print(f"\nОперации отфильтрованы по статусу '{answer_status}'.")
-    print(transactions)
 
     print("\nОтсортировать операции по дате? Да/Нет")
     answer = ["да", "нет"]
@@ -71,13 +72,10 @@ def main():
             answer_sort_order = (input()).lower()
             if answer_sort_order.lower() == "по возрастанию":
                 transactions = sort_by_date(transactions, sort_order=False)
-                print(transactions)
             if answer_sort_date.lower() == "по убыванию":
                 transactions = sort_by_date(transactions, sort_order=True)
-                print(transactions)
     if answer_sort_date.lower() == "нет":
         transactions = transactions
-        print(transactions)
 
     print("\nВыводить только рублевые транзакции? Да/Нет")
     answer = ["да", "нет"]
@@ -87,10 +85,8 @@ def main():
         answer_currency = (input()).lower()
     if answer_currency.lower() == "да":
         transactions = filter_by_currency(transactions, "RUB")
-        print(transactions)
     if answer_currency.lower() == "нет":
         transactions = transactions
-        print(transactions)
 
     print("\nОтфильтровать список транзакций по определенному слову в описании? Да/Нет")
     answer = ["да", "нет"]
@@ -121,7 +117,7 @@ def main():
             "организации",
         ]
         answer_serch_string = (input()).lower()
-        transactions = get_search_transactions(transactions, answer_serch_string)
+        transactions = get_search_transactions(transactions, answer_serch_string)  # type: ignore
 
         x = 0
         while answer_serch_string not in answer and x < 3:
@@ -135,14 +131,12 @@ def main():
                 print("Не удалось выполнить фильтрацию по описанию.")
 
             if x < 3 and answer_serch_string in answer:
-                transactions = get_search_transactions(transactions, answer_serch_string)
-                print(transactions)
+                transactions = get_search_transactions(transactions, answer_serch_string)  # type: ignore
             else:
-                transactions = get_search_transactions(transactions, answer_serch_string)
+                transactions = get_search_transactions(transactions, answer_serch_string)  # type: ignore
 
     if answer_description.lower() == "нет":
         transactions = transactions
-        print(transactions)
 
     print("\nРаспечатываю итоговый список транзакций...\n")
     if transactions:
@@ -159,7 +153,7 @@ def main():
                     else:
                         print(
                             f"""Сумма: {transaction["operationAmount"].get("amount")}
-{transaction["operationAmount"].get(["currency"]).get("code")}\n"""
+{transaction["operationAmount"].get("currency").get("code")}\n"""
                         )
                 else:
                     print(f"{mask_account_card(transaction["from"])} -> {mask_account_card(transaction["to"])}")
@@ -168,7 +162,7 @@ def main():
                     else:
                         print(
                             f"""Сумма: {transaction["operationAmount"].get("amount")}
-{transaction["operationAmount"].get(["currency"]).get("code")}\n"""
+{transaction["operationAmount"].get("currency").get("code")}\n"""
                         )
 
     if transactions is None:

@@ -1,5 +1,5 @@
 import re
-from typing import SupportsIndex, Any
+from typing import Any, SupportsIndex
 
 
 def mask_account_card(card_or_account_number: SupportsIndex | slice) -> str:
@@ -46,7 +46,7 @@ def mask_account_card(card_or_account_number: SupportsIndex | slice) -> str:
     #   return f"TypeError: {e}"
 
 
-def get_date(formatted_date: Any | str) -> str | None:
+def get_date(formatted_date: Any | str) -> str | Any:
     """
     Функция преобразует полученную строку с датой в дату формата 'ДД.ММ.ГГГГ'
     :param formatted_date:
@@ -61,8 +61,7 @@ def get_date(formatted_date: Any | str) -> str | None:
         else:
             return "пустой ввод"
 
-
-
+    return "нет данных"
 
 
 # trans = get_read_file('../data/operations.json')

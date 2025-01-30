@@ -1,4 +1,0 @@
-my_function with args: (1, 5) and kwargs: {}. 
-Result = 0.2.
-Function call time: 2025-01-29 15:22:47.750270.
-Time execution: 0.0000017
