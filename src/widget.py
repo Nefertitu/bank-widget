@@ -1,7 +1,8 @@
 import re
+from typing import Any, SupportsIndex
 
 
-def mask_account_card(card_or_account_number: str) -> str:
+def mask_account_card(card_or_account_number: SupportsIndex | slice) -> str:
     """
     Функция обрабатывает полученные данные о карте/счете и возвращает замаскированный номер
     :param card_or_account_number:
@@ -10,10 +11,10 @@ def mask_account_card(card_or_account_number: str) -> str:
 
     if type(card_or_account_number) is str:
 
-        if len(card_or_account_number) > 0:
+        if len(str(card_or_account_number)) > 0:
             n_f_m = ""
             name_mask = ""
-            for i in card_or_account_number:
+            for i in str(card_or_account_number):
                 if i.isdigit() is True:
                     n_f_m += i
                 else:
@@ -45,19 +46,27 @@ def mask_account_card(card_or_account_number: str) -> str:
     #   return f"TypeError: {e}"
 
 
-def get_data(formatted_date: str | None) -> str | None:
+def get_date(formatted_date: Any | str) -> str | Any:
     """
     Функция преобразует полученную строку с датой в дату формата 'ДД.ММ.ГГГГ'
     :param formatted_date:
     :return:
     """
-    if formatted_date:
+    if formatted_date is not None:
         received_date = re.search(r".*(\d{4}).(\d{2}).(\d{2}).*", formatted_date)
 
         if received_date is not None:
             result = f"{received_date.group(3)}.{received_date.group(2)}.{received_date.group(1)}"
+            return result
         else:
-            result = ""
-        return result
+            return "пустой ввод"
 
-    return "пустой ввод"
+    return "нет данных"
+
+
+# trans = get_read_file('../data/operations.json')
+# for dict in trans:
+#     date = dict["date"]
+#     print(get_date(date))
+# date = ""
+# print(get_date(date))

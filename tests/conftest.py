@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Hashable
 
 import pandas as pd
 import pytest
@@ -286,7 +286,7 @@ def data_for_test_csv() -> str:
 
 
 @pytest.fixture
-def data_for_test_csv_result() -> str | None:
+def data_for_test_csv_result() -> list[dict[Hashable, Any]]:
     """Возвращает словари JSON с данными транзакций"""
     sample_data_1 = {
         "id": [650703, 3598919, 593027, 366176, 5380041],
@@ -300,4 +300,4 @@ def data_for_test_csv_result() -> str | None:
         ],
     }
     df = pd.DataFrame(sample_data_1)
-    return df.to_json(orient="records", indent=4, lines=True, force_ascii=False)
+    return df.to_dict(orient="records")

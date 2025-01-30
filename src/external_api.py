@@ -5,8 +5,23 @@ from typing import Any
 import requests
 from dotenv import load_dotenv
 
+from src.utils import get_read_file
+
 load_dotenv()
 apilayer_key = os.getenv("API_KEY")
+
+
+def get_random_number(transactions: list[dict[Any, Any]]) -> int | str:
+    """
+    Возвращает рандомный номер или '1', либо сообщение "Список не должен быть пустым"
+    :param transactions:
+    :return:
+    """
+    if len(transactions) > 1:
+        return random.randint(0, len(transactions) - 1)
+    elif len(transactions) == 1:
+        return 1
+    return "Список не должен быть пустым"
 
 
 def get_conversion_apilayer(random_number: str | int, data_transactions: Any | list[dict[str, Any]]) -> Any:
@@ -19,8 +34,9 @@ def get_conversion_apilayer(random_number: str | int, data_transactions: Any | l
     :param data_transactions:
     :return:
     """
-    for _ in data_transactions:
-        if random_number is int:
+    if type(random_number) is int:
+        for _ in data_transactions:
+
             random_transaction = data_transactions[random_number]
             try:
                 currency_code = random_transaction["operationAmount"]["currency"]["code"]
@@ -71,20 +87,9 @@ def get_conversion_apilayer(random_number: str | int, data_transactions: Any | l
 
                         return response.json()
 
-        return "Неверный код валюты"
+                return "Неверный код валюты"
 
-
-def get_random_number(transactions: list[dict[Any, Any]]) -> int | str:
-    """
-    Возвращает рандомный номер или '1', либо сообщение "Список не должен быть пустым"
-    :param transactions:
-    :return:
-    """
-    if len(transactions) > 1:
-        return random.randint(0, len(transactions) - 1)
-    elif len(transactions) == 1:
-        return 1
-    return "Список не должен быть пустым"
+        return "Список не должен быть пустым"
 
 
 def data_for_test_rub() -> list[dict[Any, Any]]:
@@ -122,3 +127,51 @@ def data_for_test_rub() -> list[dict[Any, Any]]:
             "to": "Счет 74489636417521191160",
         },
     ]
+
+
+def path(dir_name: str, file_name: str) -> str:
+    """
+    Возвращает путь к файлу `operations.json`
+    :return:
+    """
+
+    path_to_file = os.path.join(os.getcwd(), dir_name, file_name)
+
+    return path_to_file
+
+
+def main_api() -> Any:
+    """
+    Объединяет действия других функций:
+    - чтение JSON-файла с транзакциями;
+    - рандомный выбор словаря с данными о транзакциях;
+    - возврат суммы транзакции из выбранного словаря в рублях;
+    - обращение к внешнему API для получения текущего курса валют и конвертации суммы операции
+    в рубли, если транзакция была выполнена в другой валюте
+    :return:
+    """
+    path_to_file = path("data", "operations.json")
+    data_transactions = get_read_file(path_to_file)
+    random_number = get_random_number(data_transactions)
+    result_transactions = get_conversion_apilayer(random_number, data_transactions)
+
+    return result_transactions
+
+
+def main_rub() -> Any:
+    """
+    Объединяет действия других функций:
+    - получение данных из файла с транзакциями, проведенными в рублях;
+    - рандомный выбор словаря с данными о транзакциях;
+    - возврат суммы транзакции из выбранного словаря
+    :return:
+    """
+
+    transactions_rub = data_for_test_rub()
+    random_number = get_random_number(transactions_rub)
+    result_transactions = get_conversion_apilayer(random_number, transactions_rub)
+
+    return result_transactions
+
+
+# print(main_rub())
