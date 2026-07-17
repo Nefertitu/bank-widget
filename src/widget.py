@@ -1,30 +1,72 @@
-from datetime import datetime
+import re
+from typing import Any, SupportsIndex
 
-from src.masks import get_mask_account, get_mask_card_number
 
+def mask_account_card(card_or_account_number: SupportsIndex | slice) -> str:
+    """
+    Функция обрабатывает полученные данные о карте/счете и возвращает замаскированный номер
+    :param card_or_account_number:
+    :return:
+    """
 
-def mask_account_widget(card_or_account_number: str) -> str:
-    """Функция обрабатывает полученные данные о карте/счете и возвращает замаскированный номер"""
-    number_for_mask = ""
-    name_mask = ""
-    for i in card_or_account_number:
-        if i.isdigit() is True:
-            number_for_mask += i
-        else:
-            name_mask += i
+    if type(card_or_account_number) is str:
 
-    if len(number_for_mask) == 16:
-        result = get_mask_card_number(number_for_mask)
-        total_result = name_mask + result
+        if len(str(card_or_account_number)) > 0:
+            n_f_m = ""
+            name_mask = ""
+            for i in str(card_or_account_number):
+                if i.isdigit() is True:
+                    n_f_m += i
+                else:
+                    name_mask += i
+
+            if n_f_m != "" and name_mask != "":
+
+                if len(n_f_m) == 20 and re.findall(r"\b[Сс]ч[е|ё]т\b\s", name_mask) is not None:
+                    result = f"**{n_f_m[16:]}"
+                    total_result = name_mask + result
+                    return total_result
+
+                elif 13 <= len(n_f_m) <= 19 and len(n_f_m) != 14 and len(n_f_m) != 17 and n_f_m.isdigit() is True:
+                    number = str(n_f_m)
+                    star = "*"
+                    result = f"{number[:4]} {number[4:6]}** {star * (len(number) - 12)} {number[-4:]}"
+                    total_result = name_mask + result
+                    return total_result
+
+                return "некорректный ввод данных"
+
+            return "некорректный ввод данных"
+
+        return "пустой ввод"
     else:
-        result = get_mask_account(number_for_mask)
-        total_result = name_mask + result
+        raise TypeError("получен аргумент некорректного типа")
 
-    return total_result
+    # except TypeError as e:
+    #   return f"TypeError: {e}"
 
 
-def get_date(formatted_date: str) -> str:
-    """Функция преобразует полученную строку с датой в дату формата 'ДД.ММ.ГГГГ'"""
-    received_date = datetime.strptime(formatted_date[:10], "%Y-%m-%d")
-    required_date = received_date.strftime("%d.%m.%Y")
-    return required_date
+def get_date(formatted_date: Any | str) -> str | Any:
+    """
+    Функция преобразует полученную строку с датой в дату формата 'ДД.ММ.ГГГГ'
+    :param formatted_date:
+    :return:
+    """
+    if formatted_date is not None:
+        received_date = re.search(r".*(\d{4}).(\d{2}).(\d{2}).*", formatted_date)
+
+        if received_date is not None:
+            result = f"{received_date.group(3)}.{received_date.group(2)}.{received_date.group(1)}"
+            return result
+        else:
+            return "пустой ввод"
+
+    return "нет данных"
+
+
+# trans = get_read_file('../data/operations.json')
+# for dict in trans:
+#     date = dict["date"]
+#     print(get_date(date))
+# date = ""
+# print(get_date(date))
